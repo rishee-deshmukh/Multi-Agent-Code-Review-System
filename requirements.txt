@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+google-genai
+langgraph
+pydantic
+python-dotenv
+semgrep
+bandit
+ruff
+json-repair
