@@ -32,14 +32,16 @@ export interface ReviewResponse {
     summary: string
     fixed_code: string
     processing_time_ms: number
+    warnings: string[]
 }
 
 // SSE stream event types
 export type StreamEvent =
     | { event: 'language'; language: Language }
-    | { event: 'tools_done' }
+    | { event: 'tools_done'; warnings?: string[] }
     | { event: 'security_done'; issues: Issue[] }
     | { event: 'performance_done'; issues: Issue[] }
     | { event: 'maintainability_done'; issues: Issue[] }
-    | { event: 'synthesis_done'; issues: Issue[]; summary: string; fixed_code: string }
+    | { event: 'synthesis_done'; issues: Issue[]; summary: string; fixed_code: string; warnings?: string[] }
+    | { event: 'error'; detail: string }
     | { event: 'done' }

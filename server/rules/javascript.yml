@@ -1,0 +1,310 @@
+rules:
+  # ---- taint rules: untrusted request data reaching a dangerous sink ----
+  - id: js-taint-command-injection
+    mode: taint
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: User-controlled data reaches a shell command (OS command injection).
+    metadata: {category: security, cwe: "CWE-78"}
+    pattern-sources:
+      - pattern: req.query
+      - pattern: req.body
+      - pattern: req.params
+      - pattern: req.headers
+      - pattern: req.cookies
+    pattern-sinks:
+      - pattern: exec(...)
+      - pattern: execSync(...)
+      - pattern: child_process.exec(...)
+      - pattern: child_process.execSync(...)
+      - pattern: $CP.exec(...)
+      - pattern: $CP.execSync(...)
+
+  - id: js-taint-sql-injection
+    mode: taint
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: User-controlled data is concatenated into an SQL query (SQL injection). Use placeholders.
+    metadata: {category: security, cwe: "CWE-89"}
+    pattern-sources:
+      - pattern: req.query
+      - pattern: req.body
+      - pattern: req.params
+    pattern-sinks:
+      - patterns:
+          - pattern: $DB.query($Q, ...)
+          - focus-metavariable: $Q
+      - patterns:
+          - pattern: $DB.run($Q, ...)
+          - focus-metavariable: $Q
+      - patterns:
+          - pattern: $DB.all($Q, ...)
+          - focus-metavariable: $Q
+      - patterns:
+          - pattern: $DB.get($Q, ...)
+          - focus-metavariable: $Q
+      - patterns:
+          - pattern: $DB.execute($Q, ...)
+          - focus-metavariable: $Q
+
+  - id: js-taint-path-traversal
+    mode: taint
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: User-controlled data is used as a file path (path traversal).
+    metadata: {category: security, cwe: "CWE-22"}
+    pattern-sources:
+      - pattern: req.query
+      - pattern: req.body
+      - pattern: req.params
+    pattern-sinks:
+      - patterns:
+          - pattern: fs.readFile($P, ...)
+          - focus-metavariable: $P
+      - patterns:
+          - pattern: fs.readFileSync($P, ...)
+          - focus-metavariable: $P
+      - patterns:
+          - pattern: fs.createReadStream($P, ...)
+          - focus-metavariable: $P
+      - patterns:
+          - pattern: fs.writeFile($P, ...)
+          - focus-metavariable: $P
+      - patterns:
+          - pattern: fs.writeFileSync($P, ...)
+          - focus-metavariable: $P
+      - patterns:
+          - pattern: $RES.sendFile($P, ...)
+          - focus-metavariable: $P
+      - patterns:
+          - pattern: $RES.download($P, ...)
+          - focus-metavariable: $P
+      - patterns:
+          - pattern: path.join(..., $P)
+          - focus-metavariable: $P
+    pattern-sanitizers:
+      - pattern: path.basename(...)
+
+  - id: js-taint-xss
+    mode: taint
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: User-controlled data is written into an HTML response without escaping (cross-site scripting).
+    metadata: {category: security, cwe: "CWE-79"}
+    pattern-sources:
+      - pattern: req.query
+      - pattern: req.body
+      - pattern: req.params
+    pattern-sinks:
+      - pattern: $RES.send(...)
+      - pattern: $RES.write(...)
+      - pattern: $RES.end(...)
+    pattern-sanitizers:
+      - pattern: escapeHtml(...)
+      - pattern: escape(...)
+      - pattern: encodeURIComponent(...)
+
+  - id: js-taint-open-redirect
+    mode: taint
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: User-controlled data decides the redirect target (open redirect).
+    metadata: {category: security, cwe: "CWE-601"}
+    pattern-sources:
+      - pattern: req.query
+      - pattern: req.body
+      - pattern: req.params
+    pattern-sinks:
+      - pattern: $RES.redirect(...)
+
+  - id: js-taint-ssrf
+    mode: taint
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: User-controlled data decides which URL the server requests (SSRF).
+    metadata: {category: security, cwe: "CWE-918"}
+    pattern-sources:
+      - pattern: req.query
+      - pattern: req.body
+      - pattern: req.params
+    pattern-sinks:
+      - pattern: fetch(...)
+      - pattern: axios.$F(...)
+      - pattern: axios(...)
+      - pattern: http.get(...)
+      - pattern: https.get(...)
+
+  # ---- pattern rules ----
+  - id: js-eval
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: eval / new Function execute arbitrary strings as code.
+    metadata: {category: security, cwe: "CWE-95"}
+    patterns:
+      - pattern-either:
+          - pattern: eval($X)
+          - pattern: new Function(...)
+          - pattern: setTimeout($X, ...)
+          - pattern: setInterval($X, ...)
+      - pattern-not: eval("...")
+      - pattern-not: setTimeout(() => {...}, ...)
+      - pattern-not: setTimeout(function() {...}, ...)
+      - pattern-not: setTimeout($F, ...)
+      - pattern-not: setInterval(() => {...}, ...)
+      - pattern-not: setInterval(function() {...}, ...)
+      - pattern-not: setInterval($F, ...)
+
+  - id: js-exec-string-concat
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: Shell command built by string concatenation or a template literal.
+    metadata: {category: security, cwe: "CWE-78"}
+    pattern-either:
+      - pattern: $CP.exec("..." + $X, ...)
+      - pattern: $CP.execSync("..." + $X, ...)
+      - pattern: exec("..." + $X, ...)
+      - pattern: execSync("..." + $X, ...)
+      - pattern: exec(`...${$X}...`, ...)
+      - pattern: execSync(`...${$X}...`, ...)
+
+  - id: js-sql-string-building
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: SQL query built by string concatenation or a template literal. Use placeholders.
+    metadata: {category: security, cwe: "CWE-89"}
+    pattern-either:
+      - pattern: $DB.query("..." + $X, ...)
+      - pattern: $DB.query(`...${$X}...`, ...)
+      - pattern: $DB.execute("..." + $X, ...)
+      - pattern: $DB.execute(`...${$X}...`, ...)
+      - pattern: $DB.run("..." + $X, ...)
+      - pattern: $DB.run(`...${$X}...`, ...)
+      - pattern: $DB.all("..." + $X, ...)
+      - pattern: $DB.get("..." + $X, ...)
+
+  - id: js-dom-xss
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: Assigning non-constant data to innerHTML/outerHTML or calling document.write enables cross-site scripting.
+    metadata: {category: security, cwe: "CWE-79"}
+    patterns:
+      - pattern-either:
+          - pattern: $EL.innerHTML = $X
+          - pattern: $EL.outerHTML = $X
+          - pattern: document.write($X)
+          - pattern: $EL.insertAdjacentHTML($POS, $X)
+      - pattern-not: $EL.innerHTML = "..."
+      - pattern-not: $EL.outerHTML = "..."
+      - pattern-not: document.write("...")
+
+  - id: js-react-dangerously-set-html
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: dangerouslySetInnerHTML bypasses React's escaping.
+    metadata: {category: security, cwe: "CWE-79"}
+    pattern: "<$EL dangerouslySetInnerHTML={...} />"
+
+  - id: js-hardcoded-secret
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: Possible hardcoded credential. Load secrets from the environment or a secret store.
+    metadata: {category: security, cwe: "CWE-798"}
+    patterns:
+      - pattern-either:
+          - pattern: const $NAME = "..."
+          - pattern: let $NAME = "..."
+          - pattern: var $NAME = "..."
+          - pattern: $OBJ.$NAME = "..."
+      - metavariable-regex:
+          metavariable: $NAME
+          regex: (?i).*(password|passwd|secret|api_?key|token).*
+      - pattern-not: const $NAME = ""
+      - pattern-not: let $NAME = ""
+
+  - id: js-weak-hash
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: MD5/SHA-1 are broken for security purposes. Use SHA-256 or better.
+    metadata: {category: security, cwe: "CWE-327"}
+    pattern-either:
+      - pattern: crypto.createHash("md5")
+      - pattern: crypto.createHash("sha1")
+
+  - id: js-insecure-random
+    languages: [javascript, typescript]
+    severity: INFO
+    message: Math.random is not cryptographically secure. Use crypto.randomBytes / crypto.randomUUID for tokens.
+    metadata: {category: security, cwe: "CWE-330"}
+    pattern: Math.random()
+
+  - id: js-tls-verification-disabled
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: TLS certificate verification disabled.
+    metadata: {category: security, cwe: "CWE-295"}
+    pattern-either:
+      - pattern: process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
+      - pattern: "{..., rejectUnauthorized: false, ...}"
+
+  # ---- performance ----
+  - id: js-array-scan-in-loop
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: Linear array search (find/filter/includes/indexOf) inside a loop makes this O(n^2). Build a Map or Set first.
+    metadata: {category: performance}
+    pattern-either:
+      - pattern: |
+          for (...) {
+            ...
+            $ARR.find(...)
+            ...
+          }
+      - pattern: |
+          for (...) {
+            ...
+            $ARR.filter(...)
+            ...
+          }
+      - pattern: |
+          for (...) {
+            ...
+            $ARR.includes(...)
+            ...
+          }
+      - pattern: |
+          for (...) {
+            ...
+            $ARR.indexOf(...)
+            ...
+          }
+
+  - id: js-sort-in-loop
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: Sorting inside a loop repeats O(n log n) work on every iteration. Sort once outside the loop.
+    metadata: {category: performance}
+    pattern-either:
+      - pattern: |
+          for (...) {
+            ...
+            $ARR.sort(...)
+            ...
+          }
+      - pattern: |
+          $ARR.forEach(($X) => {
+            ...
+            $OTHER.sort(...)
+            ...
+          })
+
+  - id: js-string-concat-in-loop
+    languages: [javascript, typescript]
+    severity: INFO
+    message: String built with += inside a loop. Collect parts in an array and join.
+    metadata: {category: performance}
+    pattern: |
+      for (...) {
+        ...
+        $S += "..."
+        ...
+      }

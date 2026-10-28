@@ -21,6 +21,11 @@ class AgentState(TypedDict):
     performance_issues: Annotated[List[Issue], operator.add]
     maintainability_issues: Annotated[List[Issue], operator.add]
 
+    # --- RUN HEALTH ---
+    # Agents append here when they could not run, so "failed" is distinguishable from "found nothing"
+    failed_agents: Annotated[List[str], operator.add]
+    warnings: Annotated[List[str], operator.add]
+
     # --- SYNTHESIZER OUTPUT ---
     final_issues: List[Issue]
     summary: str

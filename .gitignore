@@ -45,3 +45,6 @@ evaluation/predictions.json
 
 # Logs
 *.log
+# Build / test artifacts
+*.tsbuildinfo
+.pytest_cache/
