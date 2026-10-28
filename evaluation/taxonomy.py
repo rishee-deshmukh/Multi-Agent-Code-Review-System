@@ -48,7 +48,7 @@ OTHER = "other"
 # Ordered: the first matching pattern wins, and only classes of the prediction's own category are tried.
 _NAME_PATTERNS: list[tuple[str, str]] = [
     # security
-    ("code_injection",        r"code injection|\beval\b|arbitrary code|remote code execution|\brce\b|template injection|cwe-?(94|95)\b"),
+    ("code_injection",        r"code injection|\beval\b|arbitrary code|remote code execution|\brce\b|template injection|\bssti\b|cwe-?(94|95)\b"),
     ("command_injection",     r"command|\bcmd\b|shell injection|os\.system|subprocess|cwe-?78\b"),
     ("sql_injection",         r"\bsql|sqli|cwe-?89\b"),
     ("ldap_injection",        r"ldap|cwe-?90\b"),
