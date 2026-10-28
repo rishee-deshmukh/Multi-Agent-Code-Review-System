@@ -15,9 +15,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from models import ReviewRequest, ReviewResponse
-from language_detector import detect_language
-from tool_runner import run_tools
-from output_normalizer import normalize
+from pipeline import analyze
 from agents.graph import review_graph
 
 logging.basicConfig(level=logging.INFO)
@@ -42,40 +40,6 @@ def health():
     return {"status": "ok"}
 
 
-def _analyze(request: ReviewRequest) -> tuple[str, dict, list[str]]:
-    """Detect the language and run the static tools. Returns (language, initial graph state, warnings)."""
-    language = request.language or detect_language(request.code, request.filename)
-    report = run_tools(request.code, language, request.filename)
-    normalized = normalize(report.outputs, request.filename)
-
-    logger.info(
-        "Language %s — findings: security %d, performance %d, maintainability %d",
-        language,
-        len(normalized["security_findings"]),
-        len(normalized["performance_findings"]),
-        len(normalized["maintainability_findings"]),
-    )
-
-    state = {
-        "code":                     request.code,
-        "language":                 language,
-        "filename":                 request.filename,
-        "tool_outputs":             report.outputs,
-        "security_findings":        normalized["security_findings"],
-        "performance_findings":     normalized["performance_findings"],
-        "maintainability_findings": normalized["maintainability_findings"],
-        "security_issues":          [],
-        "performance_issues":       [],
-        "maintainability_issues":   [],
-        "failed_agents":            [],
-        "warnings":                 [],
-        "final_issues":             [],
-        "summary":                  "",
-        "fixed_code":               "",
-    }
-    return language, state, report.warnings
-
-
 def _check_pipeline_health(failed_agents: list[str]) -> None:
     # if every specialist failed the "review" is an empty list that looks like a clean bill of health
     if set(SPECIALISTS) <= set(failed_agents):
@@ -88,7 +52,7 @@ def review_code(request: ReviewRequest):
     session_id = uuid.uuid4()
     logger.info("Review started — session %s", session_id)
 
-    language, state, tool_warnings = _analyze(request)
+    language, state, tool_warnings = analyze(request.code, request.filename, request.language)
 
     try:
         result = review_graph.invoke(state)
@@ -123,7 +87,7 @@ async def stream_review(request: ReviewRequest):
     async def event_generator():
         try:
             # run_tools blocks on subprocesses — keep it off the event loop
-            language, state, tool_warnings = await asyncio.to_thread(_analyze, request)
+            language, state, tool_warnings = await asyncio.to_thread(analyze, request.code, request.filename, request.language)
             yield _sse({"event": "language", "language": language})
             yield _sse({"event": "tools_done", "warnings": tool_warnings})
 

@@ -26,6 +26,10 @@ class LLMError(RuntimeError):
     """The model could not produce a usable answer."""
 
 
+class LLMUnrecoverableError(LLMError):
+    """Retrying cannot help (bad credentials, offline cache miss)."""
+
+
 def model_name() -> str:
     return os.getenv("GEMINI_MODEL", DEFAULT_MODEL)
 
@@ -35,7 +39,7 @@ def _client() -> genai.Client:
     try:
         return genai.Client()
     except Exception as e:  # missing or malformed credentials
-        raise LLMError(f"Gemini client could not be created: {e}") from e
+        raise LLMUnrecoverableError(f"Gemini client could not be created: {e}") from e
 
 
 def _generate_text(client: genai.Client, system_prompt: str, user_message: str) -> str:
@@ -87,8 +91,8 @@ def parse_json(raw: str, expect: type):
 def generate_json(system_prompt: str, user_message: str, expect: type):
     """Call the model and return parsed JSON of type ``expect`` (list or dict).
 
-    Retries transient API errors and unparseable answers with backoff. Missing
-    credentials are not retried.
+    Retries transient API errors and unparseable answers with backoff.
+    ``LLMUnrecoverableError`` (e.g. missing credentials) is raised immediately.
     """
     client = _client()
     last_error: Exception | None = None
@@ -96,6 +100,8 @@ def generate_json(system_prompt: str, user_message: str, expect: type):
     for attempt in range(MAX_ATTEMPTS):
         try:
             return parse_json(_generate_text(client, system_prompt, user_message), expect)
+        except LLMUnrecoverableError:
+            raise
         except Exception as e:
             last_error = e
             logger.warning("LLM attempt %d/%d failed: %s", attempt + 1, MAX_ATTEMPTS, e)

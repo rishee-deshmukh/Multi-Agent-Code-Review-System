@@ -61,8 +61,18 @@ def test_generate_json_raises_after_exhausting_retries(fake_llm):
 
 def test_missing_credentials_are_not_retried(monkeypatch):
     def boom():
-        raise LLMError("Gemini client could not be created")
+        raise llm.LLMUnrecoverableError("Gemini client could not be created")
 
     monkeypatch.setattr(llm, "_client", boom)
     with pytest.raises(LLMError, match="could not be created"):
         generate_json("sys", "user", list)
+
+
+def test_unrecoverable_errors_skip_the_retry_loop(fake_llm):
+    def respond(system_prompt, user_message):
+        raise llm.LLMUnrecoverableError("cache miss in offline mode")
+
+    fake_llm.respond = respond
+    with pytest.raises(llm.LLMUnrecoverableError):
+        generate_json("sys", "user", list)
+    assert fake_llm.calls == 1

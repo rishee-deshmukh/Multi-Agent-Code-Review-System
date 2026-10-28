@@ -4,6 +4,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 import main
+import pipeline
 from agents.prompts import SYNTHESIZER_PROMPT
 from tests.conftest import specialist_json
 from tool_runner import ToolReport
@@ -14,7 +15,7 @@ BODY = {"code": "import os\nos.system(input())", "filename": "t.py"}
 
 @pytest.fixture(autouse=True)
 def no_real_tools(monkeypatch):
-    monkeypatch.setattr(main, "run_tools", lambda code, language, filename=None: ToolReport())
+    monkeypatch.setattr(pipeline, "run_tools", lambda code, language, filename=None: ToolReport())
 
 
 def healthy_model(system_prompt, user_message):
@@ -61,7 +62,7 @@ def test_review_surfaces_partial_failure_as_warning(fake_llm):
 
 def test_tool_failures_are_returned_as_warnings(fake_llm, monkeypatch):
     fake_llm.respond = healthy_model
-    monkeypatch.setattr(main, "run_tools", lambda *a, **k: ToolReport(errors={"semgrep": "timed out after 60s"}))
+    monkeypatch.setattr(pipeline, "run_tools", lambda *a, **k: ToolReport(errors={"semgrep": "timed out after 60s"}))
     warnings = client.post("/review", json=BODY).json()["warnings"]
     assert any("semgrep did not run" in w for w in warnings)
 

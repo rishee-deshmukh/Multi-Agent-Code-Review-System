@@ -1,212 +1,1355 @@
-[
+{
+  "version": 2,
+  "line_tolerance": 3,
+  "files": [
     {
-        "file": "001_CWE-020_author_1_py.py",
-        "line": 9,
-        "category": "security",
-        "issue_type": "Improper Input Validation",
-        "severity": "medium"
+      "file": "dev/d01.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/001_CWE-020_author_1_py.py",
+      "labels": [],
+      "notes": [
+        "SecurityEval tags this CWE-20, but yaml.BaseLoader only builds str/list/dict, so there is no exploitable issue. Kept as a hard negative."
+      ]
     },
     {
-        "file": "002_CWE-020_author_2_py.py",
-        "line": 8,
-        "category": "security",
-        "issue_type": "Improper Input Validation",
-        "severity": "medium"
+      "file": "dev/d02.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/002_CWE-020_author_2_py.py",
+      "labels": [
+        {
+          "line": 8,
+          "class": "xml_parsing",
+          "category": "security",
+          "severity": "medium",
+          "cwe": "CWE-611",
+          "ambiguous": false,
+          "note": "stdlib ElementTree is open to entity-expansion (billion laughs) DoS; no external entity resolution"
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "003_CWE-020_codeql_1_py.py",
-        "line": 10,
-        "category": "security",
-        "issue_type": "Cross-Site Scripting",
-        "severity": "medium"
+      "file": "dev/d03.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/003_CWE-020_codeql_1_py.py",
+      "labels": [
+        {
+          "line": 10,
+          "class": "xss",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-79",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "004_CWE-020_codeql_2_py.py",
-        "line": 15,
-        "category": "security",
-        "issue_type": "Unsafe Deserialization",
-        "severity": "critical"
+      "file": "dev/d04.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/004_CWE-020_codeql_2_py.py",
+      "labels": [
+        {
+          "line": 15,
+          "class": "deserialization",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-502",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "005_CWE-020_codeql_3_py.py",
-        "line": 15,
-        "category": "security",
-        "issue_type": "Open Redirect",
-        "severity": "high"
+      "file": "dev/d05.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/005_CWE-020_codeql_3_py.py",
+      "labels": [
+        {
+          "line": 17,
+          "class": "open_redirect",
+          "category": "security",
+          "severity": "medium",
+          "cwe": "CWE-601",
+          "ambiguous": false,
+          "note": "the regex is unanchored and its dots are unescaped, so it does not validate the host"
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "006_CWE-020_codeql_4_py.py",
-        "line": 11,
-        "category": "security",
-        "issue_type": "Open Redirect",
-        "severity": "high"
+      "file": "dev/d06.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/006_CWE-020_codeql_4_py.py",
+      "labels": [
+        {
+          "line": 13,
+          "class": "open_redirect",
+          "category": "security",
+          "severity": "medium",
+          "cwe": "CWE-601",
+          "ambiguous": false,
+          "note": "substring check is bypassable (evil.com/?example.com)"
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "007_CWE-022_author_1_py.py",
-        "line": 12,
-        "category": "security",
-        "issue_type": "Path Traversal",
-        "severity": "high"
+      "file": "dev/d07.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/007_CWE-022_author_1_py.py",
+      "labels": [
+        {
+          "line": 13,
+          "class": "path_traversal",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-22",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "008_CWE-022_author_2_py.py",
-        "line": 8,
-        "category": "security",
-        "issue_type": "Server-Side Request Forgery",
-        "severity": "high"
+      "file": "dev/d08.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/008_CWE-022_author_2_py.py",
+      "labels": [
+        {
+          "line": 8,
+          "class": "ssrf",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-918",
+          "ambiguous": true,
+          "note": "ambiguous: url is a function parameter with no visible untrusted source; urlopen also accepts file://"
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "009_CWE-022_codeql_1_py.py",
-        "line": 11,
-        "category": "security",
-        "issue_type": "Path Traversal",
-        "severity": "high"
+      "file": "dev/d09.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/009_CWE-022_codeql_1_py.py",
+      "labels": [
+        {
+          "line": 12,
+          "class": "path_traversal",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-22",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "010_CWE-022_codeql_2_py.py",
-        "line": 9,
-        "category": "security",
-        "issue_type": "Path Traversal",
-        "severity": "high"
+      "file": "dev/d10.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/010_CWE-022_codeql_2_py.py",
+      "labels": [
+        {
+          "line": 11,
+          "class": "path_traversal",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-22",
+          "ambiguous": false,
+          "note": "tar slip: member names are not checked"
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "011_CWE-078_author_1_py.py",
-        "line": 8,
-        "category": "security",
-        "issue_type": "OS Command Injection",
-        "severity": "critical"
+      "file": "dev/d11.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/011_CWE-078_author_1_py.py",
+      "labels": [
+        {
+          "line": 8,
+          "class": "command_injection",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-77",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "012_CWE-078_codeql_1_py.py",
-        "line": 12,
-        "category": "security",
-        "issue_type": "OS Command Injection",
-        "severity": "critical"
+      "file": "dev/d12.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/012_CWE-078_codeql_1_py.py",
+      "labels": [
+        {
+          "line": 13,
+          "class": "command_injection",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-77",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "013_CWE-079_codeql_1_py.py",
-        "line": 12,
-        "category": "security",
-        "issue_type": "Cross-Site Scripting",
-        "severity": "high"
+      "file": "dev/d13.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/013_CWE-079_codeql_1_py.py",
+      "labels": [
+        {
+          "line": 13,
+          "class": "xss",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-79",
+          "ambiguous": false,
+          "note": "jinja2 Environment() has autoescape off by default"
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "014_CWE-079_codeql_2_py.py",
-        "line": 10,
-        "category": "security",
-        "issue_type": "Cross-Site Scripting",
-        "severity": "high"
+      "file": "dev/d14.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/014_CWE-079_codeql_2_py.py",
+      "labels": [
+        {
+          "line": 12,
+          "class": "xss",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-79",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "015_CWE-079_sonar_1_py.py",
-        "line": 11,
-        "category": "security",
-        "issue_type": "Cross-Site Scripting",
-        "severity": "high"
+      "file": "dev/d15.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/015_CWE-079_sonar_1_py.py",
+      "labels": [
+        {
+          "line": 14,
+          "class": "xss",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-79",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "016_CWE-080_author_1_py.py",
-        "line": 10,
-        "category": "security",
-        "issue_type": "Cross-Site Scripting",
-        "severity": "high"
+      "file": "dev/d16.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/016_CWE-080_author_1_py.py",
+      "labels": [
+        {
+          "line": 12,
+          "class": "xss",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-79",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "017_CWE-089_author_1_py.py",
-        "line": 14,
-        "category": "security",
-        "issue_type": "SQL Injection",
-        "severity": "critical"
+      "file": "dev/d17.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/017_CWE-089_author_1_py.py",
+      "labels": [
+        {
+          "line": 8,
+          "class": "hardcoded_credentials",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-259",
+          "ambiguous": true,
+          "note": "empty DB user/password; judgement call"
+        },
+        {
+          "line": 16,
+          "class": "sql_injection",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-89",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "018_CWE-089_codeql_1_py.py",
-        "line": 13,
-        "category": "security",
-        "issue_type": "SQL Injection",
-        "severity": "critical"
+      "file": "dev/d18.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/018_CWE-089_codeql_1_py.py",
+      "labels": [
+        {
+          "line": 7,
+          "class": "hardcoded_credentials",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-259",
+          "ambiguous": true,
+          "note": "empty DB user/password; judgement call"
+        },
+        {
+          "line": 16,
+          "class": "sql_injection",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-89",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "019_CWE-090_codeql_1_py.py",
-        "line": 19,
-        "category": "security",
-        "issue_type": "LDAP Injection",
-        "severity": "high"
+      "file": "dev/d19.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/019_CWE-090_codeql_1_py.py",
+      "labels": [
+        {
+          "line": 18,
+          "class": "ldap_injection",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-90",
+          "ambiguous": false,
+          "note": "both the DN and the filter are built from request data"
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "020_CWE-090_codeql_2_py.py",
-        "line": 19,
-        "category": "security",
-        "issue_type": "LDAP Injection",
-        "severity": "high"
+      "file": "dev/d20.py",
+      "split": "dev",
+      "language": "python",
+      "origin": "dataset/src/dev/020_CWE-090_codeql_2_py.py",
+      "labels": [
+        {
+          "line": 18,
+          "class": "ldap_injection",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-90",
+          "ambiguous": false,
+          "note": "both the DN and the filter are built from request data"
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "021_js_security_1.js",
-        "line": 6,
-        "category": "security",
-        "issue_type": "SQL Injection",
-        "severity": "critical"
+      "file": "dev/d21.js",
+      "split": "dev",
+      "language": "javascript",
+      "origin": "dataset/src/dev/021_js_security_1.js",
+      "labels": [
+        {
+          "line": 6,
+          "class": "sql_injection",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-89",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "022_js_security_2.js",
-        "line": 7,
-        "category": "security",
-        "issue_type": "OS Command Injection",
-        "severity": "critical"
+      "file": "dev/d22.js",
+      "split": "dev",
+      "language": "javascript",
+      "origin": "dataset/src/dev/022_js_security_2.js",
+      "labels": [
+        {
+          "line": 7,
+          "class": "command_injection",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-77",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "023_js_security_3.js",
-        "line": 8,
-        "category": "security",
-        "issue_type": "Path Traversal",
-        "severity": "high"
+      "file": "dev/d23.js",
+      "split": "dev",
+      "language": "javascript",
+      "origin": "dataset/src/dev/023_js_security_3.js",
+      "labels": [
+        {
+          "line": 8,
+          "class": "path_traversal",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-22",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "024_js_security_4.js",
-        "line": 6,
-        "category": "security",
-        "issue_type": "Cross-Site Scripting",
-        "severity": "high"
+      "file": "dev/d24.js",
+      "split": "dev",
+      "language": "javascript",
+      "origin": "dataset/src/dev/024_js_security_4.js",
+      "labels": [
+        {
+          "line": 6,
+          "class": "xss",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-79",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "025_js_security_5.js",
-        "line": 7,
-        "category": "security",
-        "issue_type": "Server-Side Request Forgery",
-        "severity": "critical"
+      "file": "dev/d25.js",
+      "split": "dev",
+      "language": "javascript",
+      "origin": "dataset/src/dev/025_js_security_5.js",
+      "labels": [
+        {
+          "line": 7,
+          "class": "ssrf",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-918",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "026_js_performance_1.js",
-        "line": 4,
-        "category": "performance",
-        "issue_type": "O(n²) Nested Loop",
-        "severity": "medium"
+      "file": "dev/d26.js",
+      "split": "dev",
+      "language": "javascript",
+      "origin": "dataset/src/dev/026_js_performance_1.js",
+      "labels": [
+        {
+          "line": 5,
+          "class": "quadratic",
+          "category": "performance",
+          "severity": "high",
+          "cwe": null,
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "027_js_performance_2.js",
-        "line": 4,
-        "category": "performance",
-        "issue_type": "Await Inside Loop",
-        "severity": "high"
+      "file": "dev/d27.js",
+      "split": "dev",
+      "language": "javascript",
+      "origin": "dataset/src/dev/027_js_performance_2.js",
+      "labels": [
+        {
+          "line": 5,
+          "class": "io_in_loop",
+          "category": "performance",
+          "severity": "high",
+          "cwe": null,
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "028_js_performance_3.js",
-        "line": 4,
-        "category": "performance",
-        "issue_type": "Inefficient String Concatenation in Loop",
-        "severity": "medium"
+      "file": "dev/d28.js",
+      "split": "dev",
+      "language": "javascript",
+      "origin": "dataset/src/dev/028_js_performance_3.js",
+      "labels": [
+        {
+          "line": 5,
+          "class": "string_concat_loop",
+          "category": "performance",
+          "severity": "low",
+          "cwe": null,
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "029_js_performance_4.js",
-        "line": 2,
-        "category": "performance",
-        "issue_type": "Redundant Repeated Sorting",
-        "severity": "medium"
+      "file": "dev/d29.js",
+      "split": "dev",
+      "language": "javascript",
+      "origin": "dataset/src/dev/029_js_performance_4.js",
+      "labels": [
+        {
+          "line": 6,
+          "class": "repeated_work",
+          "category": "performance",
+          "severity": "medium",
+          "cwe": null,
+          "ambiguous": false,
+          "note": "three sorts in one chain; one issue"
+        }
+      ],
+      "notes": []
     },
     {
-        "file": "030_js_performance_5.js",
-        "line": 6,
-        "category": "performance",
-        "issue_type": "Repeated Full-Array Scan in Loop",
-        "severity": "high"
+      "file": "dev/d30.js",
+      "split": "dev",
+      "language": "javascript",
+      "origin": "dataset/src/dev/030_js_performance_5.js",
+      "labels": [
+        {
+          "line": 6,
+          "class": "quadratic",
+          "category": "performance",
+          "severity": "high",
+          "cwe": null,
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t01.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/js_clean_01.js",
+      "labels": [],
+      "notes": []
+    },
+    {
+      "file": "test/t02.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/js_clean_02.js",
+      "labels": [],
+      "notes": []
+    },
+    {
+      "file": "test/t03.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/js_clean_03.js",
+      "labels": [],
+      "notes": []
+    },
+    {
+      "file": "test/t04.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/js_clean_04.js",
+      "labels": [],
+      "notes": []
+    },
+    {
+      "file": "test/t05.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/js_perf_01.js",
+      "labels": [
+        {
+          "line": 4,
+          "class": "io_in_loop",
+          "category": "performance",
+          "severity": "high",
+          "cwe": null,
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t06.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/js_perf_02.js",
+      "labels": [
+        {
+          "line": 2,
+          "class": "quadratic",
+          "category": "performance",
+          "severity": "high",
+          "cwe": null,
+          "ambiguous": false,
+          "note": "orders.some is a full scan per user; build a Set of userIds"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t07.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/js_perf_03.js",
+      "labels": [
+        {
+          "line": 4,
+          "class": "repeated_work",
+          "category": "performance",
+          "severity": "medium",
+          "cwe": null,
+          "ambiguous": false,
+          "note": "identical regex rebuilt on every iteration"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t08.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/js_perf_04.js",
+      "labels": [
+        {
+          "line": 7,
+          "class": "sync_blocking",
+          "category": "performance",
+          "severity": "medium",
+          "cwe": null,
+          "ambiguous": false,
+          "note": "blocking disk read on every request"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t09.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/js_perf_05.js",
+      "labels": [
+        {
+          "line": 5,
+          "class": "quadratic",
+          "category": "performance",
+          "severity": "high",
+          "cwe": null,
+          "ambiguous": false,
+          "note": "linear search of the result array per tag"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t10.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/js_sec_01.js",
+      "labels": [
+        {
+          "line": 9,
+          "class": "sql_injection",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-89",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t11.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/js_sec_02.js",
+      "labels": [
+        {
+          "line": 11,
+          "class": "command_injection",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-77",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t12.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/js_sec_03.js",
+      "labels": [
+        {
+          "line": 10,
+          "class": "path_traversal",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-22",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t13.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/js_sec_04.js",
+      "labels": [
+        {
+          "line": 7,
+          "class": "xss",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-79",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t14.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/js_sec_05.js",
+      "labels": [
+        {
+          "line": 4,
+          "class": "xss",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-79",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t15.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/js_sec_06.js",
+      "labels": [
+        {
+          "line": 11,
+          "class": "code_injection",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-94",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t16.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/js_sec_07.js",
+      "labels": [
+        {
+          "line": 3,
+          "class": "hardcoded_credentials",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-259",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t17.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/js_sec_08.js",
+      "labels": [
+        {
+          "line": 8,
+          "class": "open_redirect",
+          "category": "security",
+          "severity": "medium",
+          "cwe": "CWE-601",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t18.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/js_sec_09.js",
+      "labels": [
+        {
+          "line": 4,
+          "class": "insecure_random",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-330",
+          "ambiguous": false,
+          "note": "session id from Math.random is predictable"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t19.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/js_sec_10.js",
+      "labels": [
+        {
+          "line": 4,
+          "class": "weak_crypto",
+          "category": "security",
+          "severity": "medium",
+          "cwe": "CWE-326",
+          "ambiguous": false,
+          "note": "fast unsalted hash used for passwords"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t20.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_clean_01.py",
+      "labels": [],
+      "notes": []
+    },
+    {
+      "file": "test/t21.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_clean_02.py",
+      "labels": [],
+      "notes": []
+    },
+    {
+      "file": "test/t22.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_clean_03.py",
+      "labels": [],
+      "notes": []
+    },
+    {
+      "file": "test/t23.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_clean_04.py",
+      "labels": [],
+      "notes": []
+    },
+    {
+      "file": "test/t24.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_clean_05.py",
+      "labels": [],
+      "notes": []
+    },
+    {
+      "file": "test/t25.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_clean_06.py",
+      "labels": [],
+      "notes": []
+    },
+    {
+      "file": "test/t26.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_clean_07.py",
+      "labels": [],
+      "notes": []
+    },
+    {
+      "file": "test/t27.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_perf_01.py",
+      "labels": [
+        {
+          "line": 5,
+          "class": "quadratic",
+          "category": "performance",
+          "severity": "high",
+          "cwe": null,
+          "ambiguous": false,
+          "note": "membership test on a list inside a loop"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t28.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_perf_02.py",
+      "labels": [
+        {
+          "line": 7,
+          "class": "io_in_loop",
+          "category": "performance",
+          "severity": "high",
+          "cwe": null,
+          "ambiguous": false,
+          "note": "N+1 queries"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t29.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_perf_03.py",
+      "labels": [
+        {
+          "line": 4,
+          "class": "string_concat_loop",
+          "category": "performance",
+          "severity": "low",
+          "cwe": null,
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t30.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_perf_04.py",
+      "labels": [
+        {
+          "line": 4,
+          "class": "repeated_work",
+          "category": "performance",
+          "severity": "medium",
+          "cwe": null,
+          "ambiguous": false,
+          "note": "same sort on unchanged input every iteration"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t31.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_perf_05.py",
+      "labels": [
+        {
+          "line": 10,
+          "class": "sync_blocking",
+          "category": "performance",
+          "severity": "medium",
+          "cwe": null,
+          "ambiguous": false,
+          "note": "blocking HTTP call inside an async handler stalls the event loop"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t32.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_perf_06.py",
+      "labels": [
+        {
+          "line": 4,
+          "class": "quadratic",
+          "category": "performance",
+          "severity": "high",
+          "cwe": null,
+          "ambiguous": false,
+          "note": "every user scans every order; index orders by user_id once"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t33.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_sec_01.py",
+      "labels": [
+        {
+          "line": 21,
+          "class": "sql_injection",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-89",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t34.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_sec_02.py",
+      "labels": [
+        {
+          "line": 13,
+          "class": "command_injection",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-77",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t35.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_sec_03.py",
+      "labels": [
+        {
+          "line": 17,
+          "class": "path_traversal",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-22",
+          "ambiguous": false,
+          "note": "endswith('.csv') does not stop ../ sequences"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t36.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_sec_04.py",
+      "labels": [
+        {
+          "line": 17,
+          "class": "xss",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-79",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t37.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_sec_05.py",
+      "labels": [
+        {
+          "line": 12,
+          "class": "ssrf",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-918",
+          "ambiguous": false,
+          "note": "scheme check only; internal hosts and cloud metadata are reachable"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t38.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_sec_06.py",
+      "labels": [
+        {
+          "line": 8,
+          "class": "deserialization",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-502",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t39.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_sec_07.py",
+      "labels": [
+        {
+          "line": 13,
+          "class": "deserialization",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-502",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t40.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_sec_08.py",
+      "labels": [
+        {
+          "line": 5,
+          "class": "hardcoded_credentials",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-259",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t41.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_sec_09.py",
+      "labels": [
+        {
+          "line": 6,
+          "class": "weak_crypto",
+          "category": "security",
+          "severity": "medium",
+          "cwe": "CWE-326",
+          "ambiguous": false,
+          "note": "fast unsalted hash used for passwords"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t42.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_sec_10.py",
+      "labels": [
+        {
+          "line": 17,
+          "class": "open_redirect",
+          "category": "security",
+          "severity": "medium",
+          "cwe": "CWE-601",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t43.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_sec_11.py",
+      "labels": [
+        {
+          "line": 5,
+          "class": "xml_parsing",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-611",
+          "ambiguous": false,
+          "note": "external entities enabled (XXE file read / SSRF)"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t44.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_sec_12.py",
+      "labels": [
+        {
+          "line": 11,
+          "class": "tls_verification",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-295",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t45.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_sec_13.py",
+      "labels": [
+        {
+          "line": 11,
+          "class": "code_injection",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-94",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t46.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_sec_14.py",
+      "labels": [
+        {
+          "line": 12,
+          "class": "debug_enabled",
+          "category": "security",
+          "severity": "medium",
+          "cwe": "CWE-215",
+          "ambiguous": false,
+          "note": "Werkzeug debugger allows code execution"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t47.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_sec_15.py",
+      "labels": [
+        {
+          "line": 8,
+          "class": "insecure_random",
+          "category": "security",
+          "severity": "medium",
+          "cwe": "CWE-330",
+          "ambiguous": false,
+          "note": "password-reset token from a non-cryptographic PRNG"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t48.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_sec_16_multi.py",
+      "labels": [
+        {
+          "line": 13,
+          "class": "sql_injection",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-89",
+          "ambiguous": false,
+          "note": ""
+        },
+        {
+          "line": 21,
+          "class": "command_injection",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-77",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t49.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/py_sec_17_multi.py",
+      "labels": [
+        {
+          "line": 5,
+          "class": "hardcoded_credentials",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-259",
+          "ambiguous": false,
+          "note": ""
+        },
+        {
+          "line": 9,
+          "class": "weak_crypto",
+          "category": "security",
+          "severity": "medium",
+          "cwe": "CWE-326",
+          "ambiguous": false,
+          "note": "SHA-1 used as the integrity/signature check for downloaded payloads"
+        },
+        {
+          "line": 13,
+          "class": "tls_verification",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-295",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
     }
-]
+  ]
+}
