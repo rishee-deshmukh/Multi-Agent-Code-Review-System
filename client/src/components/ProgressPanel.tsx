@@ -42,6 +42,7 @@ export default function ProgressPanel({ request, onReset, onDone }: Props) {
     const [language, setLanguage] = useState<Language>('python')
     const [phase, setPhase] = useState<'connecting' | 'streaming' | 'done' | 'error'>('connecting')
     const [errorMsg, setErrorMsg] = useState('')
+    const [warnings, setWarnings] = useState<string[]>([])
     const esRef = useRef<EventSource | null>(null)
 
     useEffect(() => {
@@ -112,6 +113,7 @@ export default function ProgressPanel({ request, onReset, onDone }: Props) {
                 break
 
             case 'tools_done':
+                setWarnings(evt.warnings ?? [])
                 setSteps(s => {
                     let next = updateStep(s, 'tools', { status: 'done' })
                     next = updateStep(next, 'security', { status: 'running' })
@@ -148,6 +150,7 @@ export default function ProgressPanel({ request, onReset, onDone }: Props) {
                 break
 
             case 'synthesis_done':
+                setWarnings(evt.warnings ?? [])
                 setFinalIssues(evt.issues)
                 setSummary(evt.summary)
                 setFixedCode(evt.fixed_code ?? '')
@@ -158,6 +161,11 @@ export default function ProgressPanel({ request, onReset, onDone }: Props) {
                     status: 'done',
                     detail: `${evt.issues.length} total issues`,
                 }))
+                break
+
+            case 'error':
+                setPhase('error')
+                setErrorMsg(evt.detail)
                 break
 
             case 'done':
@@ -318,6 +326,16 @@ export default function ProgressPanel({ request, onReset, onDone }: Props) {
                     )}
                 </div>
             </div>
+
+            {/* ── Degraded-run warnings: a tool or agent did not run, so results may be incomplete ── */}
+            {warnings.length > 0 && (
+                <div role="alert" className="text-[13px] text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3">
+                    <p className="font-semibold mb-1">Results may be incomplete</p>
+                    <ul className="list-disc pl-5 space-y-0.5">
+                        {warnings.map((w, i) => <li key={i}>{w}</li>)}
+                    </ul>
+                </div>
+            )}
 
             {/* ── Live issues (stream as they arrive) ── */}
             {displayIssues.length > 0 && (

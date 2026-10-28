@@ -64,12 +64,13 @@ MultiAgent/
 │           ├── AgentBadge.tsx
 │           └── SummaryCard.tsx
 │
-├── evaluation/
-│   ├── ground_truth.json         # Hand-labeled issues for 30 sample files
-│   ├── prep_dataset.py           # Prepares sample files for evaluation
-│   ├── run_eval.py               # Sends all samples to /review, writes predictions.json
-│   └── compute_metrics.py        # Computes precision/recall/F1/severity accuracy
-│   └── samples/                  # 30 Python + JS files with known vulnerabilities
+├── evaluation/                   # see evaluation/README.md
+│   ├── dataset/src/{dev,test}/   # annotated source: labels are `@label` comments on the vulnerable line
+│   ├── build_dataset.py          # strips markers -> samples/ + ground_truth.json
+│   ├── run_eval.py               # runs a system over the dataset -> results/<system>.json
+│   ├── compute_metrics.py        # scores results -> results/RESULTS.md (with 95% CIs)
+│   ├── systems.py scoring.py taxonomy.py llm_cache.py
+│   └── samples/ ground_truth.json results/ llm_cache/
 │
 ├── .env
 ├── requirements.txt
@@ -318,44 +319,13 @@ Components:
 
 ## Evaluation
 
-### Dataset
-30 sample files in `evaluation/samples/`:
-- Python files labeled with CWE numbers (CWE-020 input validation, CWE-022 path traversal, CWE-078 OS command injection, CWE-079 XSS, CWE-080 stored XSS, CWE-089 SQL injection, CWE-090 LDAP injection)
-- JavaScript files with known security and performance issues
+See [`evaluation/README.md`](evaluation/README.md) for the protocol, the datasets, how to
+reproduce, and the threats to validity. Results: [`evaluation/results/RESULTS.md`](evaluation/results/RESULTS.md).
 
-### Running Evaluation
 ```bash
-# 1. Start the server
-cd server && uvicorn main:app --reload
-
-# 2. Send all samples through the pipeline
-cd evaluation && python run_eval.py
-# Writes predictions.json
-
-# 3. Compute metrics
+cd evaluation
+python run_eval.py --system all --offline   # replay the committed LLM cache (no key needed)
 python compute_metrics.py
-```
-
-### Metrics
-- **Precision, Recall, F1** — computed per category (security, performance) and overall
-- **Severity Accuracy** — % of TP issues where predicted severity matches ground truth
-- **Duplicate Rate** — duplicate issues / total predicted issues
-- **Average Processing Time** — per-file average in seconds
-
-Matching uses ±3 line tolerance and normalized issue-type matching (synonym map + word overlap).
-
-### `ground_truth.json` format
-```json
-[
-  {
-    "file": "example.py",
-    "line": 12,
-    "issue_type": "SQL Injection",
-    "severity": "critical",
-    "category": "security",
-    "cwe": "CWE-89"
-  }
-]
 ```
 
 ---

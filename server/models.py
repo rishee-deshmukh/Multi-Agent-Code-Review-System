@@ -42,3 +42,4 @@ class ReviewResponse(BaseModel):
     summary: str                                # synthesizer written summary paragraph
     fixed_code: str                             # full corrected code with all fixes applied
     processing_time_ms: int = Field(..., ge=0)
+    warnings: List[str] = Field(default_factory=list)   # degraded-run notes: a tool or agent that did not run

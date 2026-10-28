@@ -9,3 +9,4 @@ def yaml_load(filename):
     with open(filename, 'r') as f:
         data = yaml.load(f, Loader=yaml.BaseLoader)
         return data
+# @note SecurityEval tags this CWE-20, but yaml.BaseLoader only builds str/list/dict, so there is no exploitable issue. Kept as a hard negative.

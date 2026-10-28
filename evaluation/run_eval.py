@@ -1,107 +1,139 @@
-from pathlib import Path
+"""Runs one or more systems over the dataset and writes results/<system>.json.
+
+Runs in-process (no server needed) through the same code path the API uses.
+
+    python run_eval.py --system tools_only                      # no API key needed
+    python run_eval.py --system multi_agent --split test        # needs GEMINI_API_KEY the first time
+    python run_eval.py --system all --offline                   # replay committed cache, no key, no network
+    python run_eval.py --system multi_agent --limit 3           # smoke test
+
+Every Gemini response is cached in llm_cache/ (see llm_cache.py), so re-runs are free
+and the committed cache reproduces the published numbers. Use --resume to continue an
+interrupted run, and --min-interval to stay under a free-tier rate limit.
+"""
+import argparse
 import json
-import mimetypes
-import requests
+import sys
+import time
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timezone
+from pathlib import Path
 
 EVAL_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(EVAL_DIR))
+sys.path.insert(0, str(EVAL_DIR.parent / "server"))
+
+from dotenv import load_dotenv  # noqa: E402
+
+load_dotenv(EVAL_DIR.parent / ".env")
+load_dotenv(EVAL_DIR.parent / "server" / ".env")
+
+import llm  # noqa: E402
+from llm_cache import CachedLLM  # noqa: E402
+from systems import SYSTEMS, run_system  # noqa: E402
+
 SAMPLES_DIR = EVAL_DIR / "samples"
-OUTPUT_FILE = EVAL_DIR / "predictions.json"
-
-API_URL = "http://localhost:8000/review"
-TIMEOUT_SECONDS = 180
-
-
-def detect_language_from_filename(filename: str) -> str:
-    suffix = Path(filename).suffix.lower()
-    if suffix == ".py":
-        return "python"
-    if suffix in {".js", ".jsx", ".ts", ".tsx"}:
-        return "javascript"
-    return "python"
+GROUND_TRUTH_FILE = EVAL_DIR / "ground_truth.json"
+RESULTS_DIR = EVAL_DIR / "results"
+CACHE_DIR = EVAL_DIR / "llm_cache"
 
 
-def flatten_prediction_issues(response_json: dict, sample_file: str) -> list[dict]:
-    issues = response_json.get("issues", [])
-    flattened = []
-
-    for issue in issues:
-        flattened.append({
-            "file": issue.get("file", sample_file),
-            "line": int(issue.get("line", 1)),
-            "category": issue.get("category", ""),
-            "issue_type": issue.get("issue_type", ""),
-            "severity": issue.get("severity", ""),
-            "agent": issue.get("agent", ""),
-            "confidence": issue.get("confidence", 0.0),
-            "processing_time_ms": response_json.get("processing_time_ms", 0),
-        })
-
-    return flattened
+def load_files(split: str, limit: int | None, only: list[str] | None) -> list[dict]:
+    files = json.loads(GROUND_TRUTH_FILE.read_text(encoding="utf-8"))["files"]
+    if split != "all":
+        files = [f for f in files if f["split"] == split]
+    if only:
+        files = [f for f in files if f["file"] in only]
+    return files[:limit] if limit else files
 
 
-def main() -> None:
-    if not SAMPLES_DIR.exists():
-        raise FileNotFoundError(f"Samples directory not found: {SAMPLES_DIR}")
+def evaluate_file(system: str, entry: dict, cache: CachedLLM, track_calls: bool) -> dict:
+    code = (SAMPLES_DIR / entry["file"]).read_text(encoding="utf-8")
+    name = Path(entry["file"]).name   # neutral name: the model must not see the vulnerability class
+    calls_before, hits_before = cache.calls, cache.hits
 
-    sample_files = sorted(
-        [
-            path for path in SAMPLES_DIR.iterdir()
-            if path.is_file() and path.suffix.lower() in {".py", ".js", ".jsx", ".ts", ".tsx"}
-        ]
-    )
+    started = time.monotonic()
+    try:
+        run = run_system(system, code, name, entry["language"])
+        predictions, warnings, error = run.predictions, run.warnings, run.error
+    except Exception as e:  # a crash on one file must not lose the rest of the run
+        predictions, warnings, error = [], [], f"{type(e).__name__}: {e}"
+    seconds = time.monotonic() - started
 
-    if not sample_files:
-        raise ValueError(f"No sample files found in: {SAMPLES_DIR}")
+    return {
+        "predictions": predictions,
+        "warnings": warnings,
+        "error": error,
+        "seconds": round(seconds, 2),
+        # per-file call counts are only meaningful when files run one at a time
+        "llm_calls": cache.calls - calls_before if track_calls else None,
+        "cache_hits": cache.hits - hits_before if track_calls else None,
+    }
 
-    all_predictions = []
-    failed_files = []
 
-    print(f"Found {len(sample_files)} sample files.")
-    print(f"Sending requests to {API_URL}\n")
+def save(path: Path, payload: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(".tmp")
+    tmp.write_text(json.dumps(payload, indent=1), encoding="utf-8")
+    tmp.replace(path)
 
-    for idx, sample_path in enumerate(sample_files, start=1):
-        code = sample_path.read_text(encoding="utf-8")
-        filename = sample_path.name
-        language = detect_language_from_filename(filename)
 
-        payload = {
-            "code": code,
-            "filename": filename,
-            "language": language,
-        }
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--system", default="all", help=f"one of {', '.join(SYSTEMS)}, or 'all'")
+    parser.add_argument("--split", default="all", choices=["dev", "test", "all"])
+    parser.add_argument("--limit", type=int, help="only the first N files (smoke test)")
+    parser.add_argument("--file", action="append", help="only this sample, e.g. test/t07.js (repeatable)")
+    parser.add_argument("--workers", type=int, default=1, help="parallel files; >1 makes per-file latency/call counts unreliable")
+    parser.add_argument("--offline", action="store_true", help="never call the API; fail on a cache miss")
+    parser.add_argument("--min-interval", type=float, default=0.0, help="seconds between live API calls")
+    parser.add_argument("--resume", action="store_true", help="keep results already saved without an error")
+    parser.add_argument("--results-dir", type=Path, default=RESULTS_DIR)
+    parser.add_argument("--cache-dir", type=Path, default=CACHE_DIR)
+    args = parser.parse_args()
 
-        print(f"[{idx}/{len(sample_files)}] Reviewing {filename} ...")
+    systems = SYSTEMS if args.system == "all" else (args.system,)
+    for s in systems:
+        if s not in SYSTEMS:
+            parser.error(f"unknown system {s!r}")
 
-        try:
-            response = requests.post(API_URL, json=payload, timeout=TIMEOUT_SECONDS)
-            response.raise_for_status()
-            response_json = response.json()
+    files = load_files(args.split, args.limit, args.file)
+    if not files:
+        parser.error("no files selected")
 
-            flattened_issues = flatten_prediction_issues(response_json, filename)
+    cache = CachedLLM(args.cache_dir, offline=args.offline, min_interval=args.min_interval).install()
+    exit_code = 0
 
-            all_predictions.extend(flattened_issues)
+    for system in systems:
+        path = args.results_dir / f"{system}.json"
+        payload = {"system": system, "model": llm.model_name(), "files": {}}
+        if args.resume and path.exists():
+            previous = json.loads(path.read_text(encoding="utf-8"))
+            payload["files"] = {k: v for k, v in previous.get("files", {}).items() if not v.get("error")}
+        elif path.exists() and (args.split != "all" or args.limit or args.file):
+            # a partial run must not wipe the results of files it did not touch
+            payload["files"] = json.loads(path.read_text(encoding="utf-8")).get("files", {})
 
-            print(
-                f"  Done -> {len(flattened_issues)} issues, "
-                f"{response_json.get('processing_time_ms', 0)} ms"
-            )
+        todo = [f for f in files if f["file"] not in payload["files"] or not args.resume]
+        print(f"\n== {system}: {len(todo)} file(s)  (model {llm.model_name()}{', offline' if args.offline else ''})")
 
-        except Exception as exc:
-            print(f"  Failed -> {filename}: {exc}")
-            failed_files.append(filename)
+        def work(entry):
+            return entry["file"], evaluate_file(system, entry, cache, track_calls=args.workers == 1)
 
-    with OUTPUT_FILE.open("w", encoding="utf-8") as f:
-        json.dump(all_predictions, f, indent=2)
+        with ThreadPoolExecutor(max_workers=args.workers) as pool:
+            for i, (name, result) in enumerate(pool.map(work, todo), start=1):
+                payload["files"][name] = result
+                payload["created"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+                save(path, payload)
+                status = f"ERROR {result['error']}" if result["error"] else f"{len(result['predictions'])} predictions"
+                print(f"  [{i}/{len(todo)}] {name:12s} {status}  ({result['seconds']}s)")
+                exit_code |= bool(result["error"])
 
-    print("\nFinished.")
-    print(f"Saved predictions to: {OUTPUT_FILE}")
-    print(f"Total predicted issues: {len(all_predictions)}")
-
-    if failed_files:
-        print("\nFailed files:")
-        for name in failed_files:
-            print(f" - {name}")
+    print(f"\nlive API calls: {cache.calls - cache.hits}   cache hits: {cache.hits}")
+    if exit_code:
+        print("Some files failed; they are excluded from the metrics and reported as failures.")
+    return exit_code
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

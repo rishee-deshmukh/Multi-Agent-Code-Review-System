@@ -1,0 +1,282 @@
+rules:
+  # ---- taint rules: untrusted request data reaching a dangerous sink ----
+  - id: py-taint-command-injection
+    mode: taint
+    languages: [python]
+    severity: ERROR
+    message: User-controlled data reaches a shell command (OS command injection).
+    metadata: {category: security, cwe: "CWE-78"}
+    pattern-sources:
+      - pattern: flask.request.$ATTR
+      - pattern: request.$ATTR.get(...)
+      - pattern: request.$ATTR[...]
+      - pattern: input(...)
+      - pattern: sys.argv
+    pattern-sinks:
+      - pattern: os.system(...)
+      - pattern: os.popen(...)
+      - pattern: subprocess.$F(..., shell=True, ...)
+
+  - id: py-taint-path-traversal
+    mode: taint
+    languages: [python]
+    severity: ERROR
+    message: User-controlled data is used as a file path (path traversal).
+    metadata: {category: security, cwe: "CWE-22"}
+    pattern-sources:
+      - pattern: flask.request.$ATTR
+      - pattern: request.$ATTR.get(...)
+      - pattern: request.$ATTR[...]
+      - pattern: input(...)
+    pattern-sinks:
+      - patterns:
+          - pattern: open($PATH, ...)
+          - focus-metavariable: $PATH
+      - patterns:
+          - pattern: send_file($PATH, ...)
+          - focus-metavariable: $PATH
+      - patterns:
+          - pattern: send_from_directory($DIR, $PATH, ...)
+          - focus-metavariable: $PATH
+      - patterns:
+          - pattern: os.path.join(..., $PATH)
+          - focus-metavariable: $PATH
+    pattern-sanitizers:
+      - pattern: os.path.basename(...)
+      - pattern: werkzeug.utils.secure_filename(...)
+      - pattern: secure_filename(...)
+
+  - id: py-taint-sql-injection
+    mode: taint
+    languages: [python]
+    severity: ERROR
+    message: User-controlled data is interpolated into an SQL query (SQL injection). Use parameterized queries.
+    metadata: {category: security, cwe: "CWE-89"}
+    pattern-sources:
+      - pattern: flask.request.$ATTR
+      - pattern: request.$ATTR.get(...)
+      - pattern: request.$ATTR[...]
+      - pattern: input(...)
+    pattern-sinks:
+      - patterns:
+          - pattern: $CUR.execute($QUERY, ...)
+          - focus-metavariable: $QUERY
+      - patterns:
+          - pattern: $CUR.executemany($QUERY, ...)
+          - focus-metavariable: $QUERY
+
+  - id: py-taint-xss
+    mode: taint
+    languages: [python]
+    severity: ERROR
+    message: User-controlled data is written into an HTML response without escaping (cross-site scripting).
+    metadata: {category: security, cwe: "CWE-79"}
+    pattern-sources:
+      - pattern: flask.request.$ATTR
+      - pattern: request.$ATTR.get(...)
+      - pattern: request.$ATTR[...]
+    pattern-sinks:
+      - pattern: flask.make_response(...)
+      - pattern: make_response(...)
+      - pattern: flask.render_template_string(...)
+      - pattern: render_template_string(...)
+      - pattern: flask.Markup(...)
+      - pattern: Markup(...)
+      - pattern: django.utils.safestring.mark_safe(...)
+      - pattern: mark_safe(...)
+      - pattern: HttpResponse(...)
+    pattern-sanitizers:
+      - pattern: escape(...)
+      - pattern: html.escape(...)
+      - pattern: markupsafe.escape(...)
+
+  - id: py-taint-open-redirect
+    mode: taint
+    languages: [python]
+    severity: WARNING
+    message: User-controlled data decides the redirect target (open redirect).
+    metadata: {category: security, cwe: "CWE-601"}
+    pattern-sources:
+      - pattern: flask.request.$ATTR
+      - pattern: request.$ATTR.get(...)
+      - pattern: request.$ATTR[...]
+    pattern-sinks:
+      - pattern: flask.redirect(...)
+      - pattern: redirect(...)
+
+  - id: py-taint-ldap-injection
+    mode: taint
+    languages: [python]
+    severity: ERROR
+    message: User-controlled data is used in an LDAP filter or DN (LDAP injection).
+    metadata: {category: security, cwe: "CWE-90"}
+    pattern-sources:
+      - pattern: flask.request.$ATTR
+      - pattern: request.$ATTR.get(...)
+      - pattern: request.$ATTR[...]
+    pattern-sinks:
+      - pattern: $CONN.search_s(...)
+      - pattern: $CONN.search(...)
+
+  # ---- pattern rules ----
+  - id: py-sql-string-building
+    languages: [python]
+    severity: ERROR
+    message: SQL query built by string formatting. Use parameterized queries.
+    metadata: {category: security, cwe: "CWE-89"}
+    pattern-either:
+      - pattern: $CUR.execute("..." % $X, ...)
+      - pattern: $CUR.execute("..." + $X, ...)
+      - pattern: $CUR.execute("...".format(...), ...)
+      - pattern: $CUR.execute(f"...{$X}...", ...)
+
+  - id: py-eval-exec
+    languages: [python]
+    severity: ERROR
+    message: eval/exec on a non-constant value allows arbitrary code execution.
+    metadata: {category: security, cwe: "CWE-95"}
+    patterns:
+      - pattern-either:
+          - pattern: eval($X)
+          - pattern: exec($X)
+      - pattern-not: eval("...")
+      - pattern-not: exec("...")
+
+  - id: py-shell-true
+    languages: [python]
+    severity: WARNING
+    message: subprocess call with shell=True and a non-constant command.
+    metadata: {category: security, cwe: "CWE-78"}
+    patterns:
+      - pattern: subprocess.$F($CMD, ..., shell=True, ...)
+      - pattern-not: subprocess.$F("...", ..., shell=True, ...)
+
+  - id: py-os-system-dynamic
+    languages: [python]
+    severity: ERROR
+    message: os.system with a non-constant command.
+    metadata: {category: security, cwe: "CWE-78"}
+    patterns:
+      - pattern: os.system($CMD)
+      - pattern-not: os.system("...")
+
+  - id: py-unsafe-deserialization
+    languages: [python]
+    severity: ERROR
+    message: Deserializing untrusted data with pickle/marshal/shelve can execute arbitrary code.
+    metadata: {category: security, cwe: "CWE-502"}
+    pattern-either:
+      - pattern: pickle.load(...)
+      - pattern: pickle.loads(...)
+      - pattern: marshal.loads(...)
+      - pattern: yaml.load($X)
+      - pattern: yaml.load($X, Loader=yaml.Loader)
+      - pattern: yaml.load($X, Loader=yaml.UnsafeLoader)
+      - pattern: yaml.unsafe_load(...)
+
+  - id: py-xxe-unsafe-parser
+    languages: [python]
+    severity: WARNING
+    message: XML parser that resolves external entities or is vulnerable to entity expansion (XXE).
+    metadata: {category: security, cwe: "CWE-611"}
+    pattern-either:
+      - pattern: lxml.etree.XMLParser(..., resolve_entities=True, ...)
+      - pattern: xml.etree.ElementTree.parse(...)
+      - pattern: xml.etree.ElementTree.fromstring(...)
+      - pattern: xml.dom.minidom.parseString(...)
+      - pattern: xml.sax.make_parser(...)
+
+  - id: py-hardcoded-secret
+    languages: [python]
+    severity: WARNING
+    message: Possible hardcoded credential. Load secrets from the environment or a secret store.
+    metadata: {category: security, cwe: "CWE-798"}
+    patterns:
+      - pattern: $NAME = "..."
+      - metavariable-regex:
+          metavariable: $NAME
+          regex: (?i).*(password|passwd|secret|api_?key|token).*
+      - pattern-not: $NAME = ""
+
+  - id: py-hardcoded-secret-kwarg
+    languages: [python]
+    severity: WARNING
+    message: Credential passed as a string literal argument.
+    metadata: {category: security, cwe: "CWE-798"}
+    patterns:
+      - pattern: $F(..., $K="...", ...)
+      - metavariable-regex:
+          metavariable: $K
+          regex: (?i)^(password|passwd|pwd|secret|api_?key|token)$
+      - pattern-not: $F(..., $K="", ...)
+
+  - id: py-weak-hash
+    languages: [python]
+    severity: WARNING
+    message: MD5/SHA-1 are broken for security purposes. Use SHA-256 or better (bcrypt/argon2 for passwords).
+    metadata: {category: security, cwe: "CWE-327"}
+    pattern-either:
+      - pattern: hashlib.md5(...)
+      - pattern: hashlib.sha1(...)
+
+  - id: py-tls-verification-disabled
+    languages: [python]
+    severity: ERROR
+    message: TLS certificate verification disabled.
+    metadata: {category: security, cwe: "CWE-295"}
+    pattern-either:
+      - pattern: requests.$F(..., verify=False, ...)
+      - pattern: ssl._create_unverified_context(...)
+
+  - id: py-insecure-random
+    languages: [python]
+    severity: INFO
+    message: random is not cryptographically secure. Use the secrets module for tokens and keys.
+    metadata: {category: security, cwe: "CWE-330"}
+    patterns:
+      - pattern: random.$F(...)
+      - metavariable-regex:
+          metavariable: $F
+          regex: ^(random|randint|choice|randrange|getrandbits)$
+
+  - id: py-flask-debug
+    languages: [python]
+    severity: WARNING
+    message: Flask debug mode exposes an interactive debugger.
+    metadata: {category: security, cwe: "CWE-489"}
+    pattern: $APP.run(..., debug=True, ...)
+
+  # ---- performance ----
+  - id: py-string-concat-in-loop
+    languages: [python]
+    severity: INFO
+    message: String built with += inside a loop is quadratic. Collect the parts in a list and ''.join them.
+    metadata: {category: performance}
+    pattern-either:
+      - pattern: |
+          for $X in $ITER:
+            ...
+            $S += "..."
+      - pattern: |
+          for $X in $ITER:
+            ...
+            $S += $Y
+    pattern-not: |
+      for $X in $ITER:
+        ...
+        $S += 1
+
+  - id: py-query-in-loop
+    languages: [python]
+    severity: WARNING
+    message: Database query executed inside a loop (N+1 pattern). Batch it into a single query.
+    metadata: {category: performance}
+    pattern-either:
+      - pattern: |
+          for $X in $ITER:
+            ...
+            $CUR.execute(...)
+      - pattern: |
+          for $X in $ITER:
+            ...
+            requests.$F(...)

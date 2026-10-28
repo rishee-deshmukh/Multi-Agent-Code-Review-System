@@ -1,27 +1,27 @@
+import asyncio
+import json
+import logging
+import os
+import sys
 import time
 import uuid
-import logging
-import json
-import sys
-import os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from dotenv import load_dotenv
-
-from models import ReviewRequest, ReviewResponse
-from language_detector import detect_language
-from tool_runner import run_tools
-from output_normalizer import normalize
-from agents.graph import review_graph
 from fastapi.responses import StreamingResponse
-import asyncio
+from dotenv import load_dotenv
 
 load_dotenv()
 
+from models import ReviewRequest, ReviewResponse
+from pipeline import analyze
+from agents.graph import review_graph
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+SPECIALISTS = ("security", "performance", "maintainability")
 
 app = FastAPI(title="Multi-Agent Code Review System")
 
@@ -40,61 +40,31 @@ def health():
     return {"status": "ok"}
 
 
+def _check_pipeline_health(failed_agents: list[str]) -> None:
+    # if every specialist failed the "review" is an empty list that looks like a clean bill of health
+    if set(SPECIALISTS) <= set(failed_agents):
+        raise HTTPException(status_code=502, detail="All review agents failed — the LLM backend is unavailable or misconfigured")
+
+
 @app.post("/review", response_model=ReviewResponse)
 def review_code(request: ReviewRequest):
     start_time = time.time()
     session_id = uuid.uuid4()
+    logger.info("Review started — session %s", session_id)
 
-    logger.info(f"Review started — session {session_id}")
+    language, state, tool_warnings = analyze(request.code, request.filename, request.language)
 
-    # step 1 — detect language
-    language = request.language or detect_language(request.code, request.filename)
-    logger.info(f"Language detected: {language}")
-
-    # step 2 — run static analysis tools
     try:
-        tool_outputs = run_tools(request.code, language, request.filename)
+        result = review_graph.invoke(state)
     except Exception as e:
-        logger.error(f"Tool runner failed: {e}")
-        tool_outputs = {"semgrep": [], "bandit": [], "ruff": [], "eslint": []}
+        logger.error("LangGraph pipeline failed: %s", e)
+        raise HTTPException(status_code=500, detail=f"Pipeline failed: {e}")
 
-    # step 3 — normalize tool outputs into categorized findings
-    normalized = normalize(tool_outputs, request.filename)
-    logger.info(
-        f"Findings — security: {len(normalized['security_findings'])}, "
-        f"performance: {len(normalized['performance_findings'])}, "
-        f"maintainability: {len(normalized['maintainability_findings'])}"
-    )
+    _check_pipeline_health(result.get("failed_agents", []))
 
-    # step 4 — run LangGraph pipeline
-    try:
-        result = review_graph.invoke({
-            "code":                     request.code,
-            "language":                 language,
-            "filename":                 request.filename,
-            "tool_outputs":             tool_outputs,
-            "security_findings":        normalized["security_findings"],
-            "performance_findings":     normalized["performance_findings"],
-            "maintainability_findings": normalized["maintainability_findings"],
-            "security_issues":          [],
-            "performance_issues":       [],
-            "maintainability_issues":   [],
-            "final_issues":             [],
-            "summary":                  "",
-            "fixed_code":               "",
-        })
-    except Exception as e:
-        logger.error(f"LangGraph pipeline failed: {e}")
-        raise HTTPException(status_code=500, detail=f"Pipeline failed: {str(e)}")
-
-    # step 5 — build response
     final_issues = result.get("final_issues", [])
     processing_time = int((time.time() - start_time) * 1000)
-
-    logger.info(
-        f"Review complete — {len(final_issues)} issues found "
-        f"in {processing_time}ms"
-    )
+    logger.info("Review complete — %d issues in %dms", len(final_issues), processing_time)
 
     return ReviewResponse(
         session_id=session_id,
@@ -102,91 +72,72 @@ def review_code(request: ReviewRequest):
         issues=final_issues,
         total_issues=len(final_issues),
         summary=result.get("summary", ""),
-        fixed_code=result.get("fixed_code", request.code),
+        fixed_code=result.get("fixed_code") or request.code,
         processing_time_ms=processing_time,
+        warnings=tool_warnings + result.get("warnings", []),
     )
+
+
+def _sse(payload: dict) -> str:
+    return f"data: {json.dumps(payload)}\n\n"
+
 
 @app.post("/stream")
 async def stream_review(request: ReviewRequest):
     async def event_generator():
-        # step 1 — detect language
-        language = request.language or detect_language(request.code, request.filename)
-        yield f"data: {json.dumps({'event': 'language', 'language': language})}\n\n"
-
-        # step 2 — run tools
         try:
-            tool_outputs = run_tools(request.code, language, request.filename)
-        except Exception as e:
-            logger.error(f"Tool runner failed: {e}")
-            tool_outputs = {"semgrep": [], "bandit": [], "ruff": [], "eslint": []}
+            # run_tools blocks on subprocesses — keep it off the event loop
+            language, state, tool_warnings = await asyncio.to_thread(analyze, request.code, request.filename, request.language)
+            yield _sse({"event": "language", "language": language})
+            yield _sse({"event": "tools_done", "warnings": tool_warnings})
 
-        normalized = normalize(tool_outputs, request.filename)
-        yield f"data: {json.dumps({'event': 'tools_done'})}\n\n"
-
-        # step 3 — run LangGraph pipeline with streaming
-        initial_state = {
-            "code":                     request.code,
-            "language":                 language,
-            "filename":                 request.filename,
-            "tool_outputs":             tool_outputs,
-            "security_findings":        normalized["security_findings"],
-            "performance_findings":     normalized["performance_findings"],
-            "maintainability_findings": normalized["maintainability_findings"],
-            "security_issues":          [],
-            "performance_issues":       [],
-            "maintainability_issues":   [],
-            "final_issues":             [],
-            "summary":                  "",
-            "fixed_code": "", 
-        }
-
-        loop = asyncio.get_event_loop()
-
-        async def stream_chunks():
-            loop = asyncio.get_event_loop()
+            loop = asyncio.get_running_loop()
             queue: asyncio.Queue = asyncio.Queue()
 
-            def run():
+            def run_graph():
                 try:
-                    for chunk in review_graph.stream(initial_state):
+                    for chunk in review_graph.stream(state):
                         loop.call_soon_threadsafe(queue.put_nowait, chunk)
                 except Exception as e:
                     loop.call_soon_threadsafe(queue.put_nowait, e)
                 finally:
                     loop.call_soon_threadsafe(queue.put_nowait, None)  # sentinel
 
-            loop.run_in_executor(None, run)
+            loop.run_in_executor(None, run_graph)
 
-            while True:
-                chunk = await queue.get()
-                if chunk is None:
-                    break
+            failed_agents: list[str] = []
+            agent_warnings: list[str] = []
+
+            while (chunk := await queue.get()) is not None:
                 if isinstance(chunk, Exception):
                     raise chunk
-                yield chunk
 
-        async for chunk in stream_chunks():
-            node_name = list(chunk.keys())[0]
+                # parallel nodes can land in one chunk — handle every key, not just the first
+                for node, update in chunk.items():
+                    failed_agents += update.get("failed_agents", [])
+                    agent_warnings += update.get("warnings", [])
 
-            if node_name == "security":
-                issues = chunk["security"].get("security_issues", [])
-                yield f"data: {json.dumps({'event': 'security_done', 'issues': [i.model_dump() for i in issues]})}\n\n"
+                    if node in SPECIALISTS:
+                        issues = update.get(f"{node}_issues", [])
+                        yield _sse({"event": f"{node}_done", "issues": [i.model_dump() for i in issues]})
 
-            elif node_name == "performance":
-                issues = chunk["performance"].get("performance_issues", [])
-                yield f"data: {json.dumps({'event': 'performance_done', 'issues': [i.model_dump() for i in issues]})}\n\n"
+                    elif node == "synthesizer":
+                        _check_pipeline_health(failed_agents)
+                        yield _sse({
+                            "event": "synthesis_done",
+                            "issues": [i.model_dump() for i in update.get("final_issues", [])],
+                            "summary": update.get("summary", ""),
+                            "fixed_code": update.get("fixed_code") or request.code,
+                            "warnings": tool_warnings + agent_warnings,
+                        })
 
-            elif node_name == "maintainability":
-                issues = chunk["maintainability"].get("maintainability_issues", [])
-                yield f"data: {json.dumps({'event': 'maintainability_done', 'issues': [i.model_dump() for i in issues]})}\n\n"
+            yield _sse({"event": "done"})
 
-            elif node_name == "synthesizer":
-                final_issues = chunk["synthesizer"].get("final_issues", [])
-                summary = chunk["synthesizer"].get("summary", "")
-                fixed_code = chunk["synthesizer"].get("fixed_code", request.code)
-                yield f"data: {json.dumps({'event': 'synthesis_done', 'issues': [i.model_dump() for i in final_issues], 'summary': summary, 'fixed_code': fixed_code})}\n\n"
-
-        yield f"data: {json.dumps({'event': 'done'})}\n\n"
+        except HTTPException as e:
+            yield _sse({"event": "error", "detail": e.detail})
+        except Exception as e:
+            logger.exception("Stream failed")
+            yield _sse({"event": "error", "detail": f"Pipeline failed: {e}"})
 
     return StreamingResponse(
         event_generator(),

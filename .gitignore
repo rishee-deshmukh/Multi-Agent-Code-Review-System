@@ -40,8 +40,11 @@ client/.vite/
 .DS_Store
 Thumbs.db
 
-# Evaluation outputs
-evaluation/predictions.json
+# Evaluation scratch
+evaluation/results/*.tmp
 
 # Logs
 *.log
+# Build / test artifacts
+*.tsbuildinfo
+.pytest_cache/
