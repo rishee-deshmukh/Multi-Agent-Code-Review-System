@@ -44,7 +44,7 @@ FastAPI backend in `server/`, React + Vite + TypeScript + Tailwind frontend in `
 | 1 | Correctness bugs and silent failures | **Done**, pushed, tested |
 | 2 | Evaluation rebuild (dataset, scorer, baselines, harness) | **Done**, pushed, tested |
 | 2b | Run the LLM systems and publish numbers | **Pending**: blocked by the free-tier daily API quota, see section 7 |
-| 3 | Packaging: Docker, hosting, CI, rate limiting, CORS | **Not started** |
+| 3 | Packaging: Docker, hosting, CI, rate limiting, CORS | **Done except**: no `LICENSE` (owner's choice), nothing deployed to a host yet, CI workflow not yet run on GitHub. Image build and `scripts/smoke_test.sh` verified locally |
 | 4 | README that leads with results and a demo | **Not started** (the README is partly stale, see section 9) |
 | 5 | Optional features | Deliberately deferred |
 
