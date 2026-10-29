@@ -1,0 +1,20 @@
+# Render Blueprint: New > Blueprint > pick this repo. Render builds the Dockerfile and asks for GEMINI_API_KEY.
+# The free instance has 512 MB; two simultaneous reviews (each runs up to three analyser processes) fit in it
+# (checked with `docker run --memory=512m`).
+services:
+  - type: web
+    name: code-review
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false          # entered in the Render dashboard, never committed
+      - key: TRUST_PROXY_HEADERS
+        value: "true"        # Render's proxy sets X-Forwarded-For; without this every visitor shares one rate limit
+      - key: MAX_CONCURRENT_REVIEWS
+        value: "2"
+      - key: RATE_LIMIT_PER_MINUTE
+        value: "6"
+      - key: DAILY_REVIEW_BUDGET
+        value: "100"         # caps the Gemini bill: one review is about four calls

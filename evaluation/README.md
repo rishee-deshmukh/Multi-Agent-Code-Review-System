@@ -25,7 +25,7 @@ and performance** are scored; maintainability has no objective ground truth.
 | split | files | provenance | how to use it |
 |---|---|---|---|
 | `dev` | 30 | 20 Python snippets from the public [SecurityEval](https://huggingface.co/datasets/s2e-lab/SecurityEval) benchmark + 10 small JS files that shipped with the project | look at failures, debug, tune |
-| `test` | 49 | written for this project after the static rules were frozen; 38 vulnerable, 11 clean | **quote these numbers.** Do not tune against them |
+| `test` | 67 | written for this project after the static rules were frozen; 53 vulnerable, 14 clean | **quote these numbers.** Do not tune against them |
 
 The test split deliberately includes *clean* files and hard negatives (parameterized
 SQL, `execFile` with an argument list, `yaml.safe_load`, `random.choice` for a UI
@@ -89,10 +89,11 @@ python compute_metrics.py                # -> results/RESULTS.md, results/errors
 ```
 
 First live run (needs `GEMINI_API_KEY`): `python run_eval.py --system all --min-interval 5`.
+`python sensitivity.py` prints precision with unclassifiable predictions dropped (a diagnostic, see its docstring).
 
 **Free-tier budget.** The free tier allows 15 requests/minute and 500 requests/day per model
-(check your own limits). One full pass over every system is roughly 700 calls, so expect to
-spend two days: the run stops cleanly at the daily limit (exit code 2) and
+(check your own limits). One full pass over every system is roughly 900 calls (about 870 distinct
+prompts), so on the free tier expect to spend two days: the run stops cleanly at the daily limit (exit code 2) and
 `python run_eval.py --system all --min-interval 5 --resume` carries on after the reset
 (midnight Pacific). Already-cached calls cost nothing, and `--resume` re-runs only files that
 errored or ran with a failed agent. A file in which any agent failed is never scored with
@@ -113,7 +114,7 @@ affected entries. `--resume` continues an interrupted run. Run with `--workers 1
 2. **Dev is contaminated.** SecurityEval is public and almost certainly in the training
    data of the model being evaluated, and the static rules were written knowing its
    CWE classes. Use it for debugging, not for claims.
-3. **Small n.** 49 held-out files. The intervals show how little that supports; two
+3. **Small n.** 67 held-out files (56 labelled issues). The intervals show how little that supports; two
    systems whose intervals overlap are not shown to differ.
 4. **Synthetic code.** The test files are short, single-purpose, and clean of real-world
    noise. Real repositories will score lower; this does not measure that.
