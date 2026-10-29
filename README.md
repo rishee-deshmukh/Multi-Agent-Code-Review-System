@@ -108,6 +108,10 @@ curl -X POST localhost:8000/review -H 'Content-Type: application/json' \
   -d '{"code": "import os\nos.system(input())", "filename": "t.py"}'
 ```
 
+To try it on something realistic, paste [`examples/sample.py`](examples/sample.py) or [`examples/sample.js`](examples/sample.js) into the app.
+Each contains a dozen deliberate security, performance and maintainability problems (SQL injection, command injection,
+N+1 queries, quadratic loops, ...).
+
 `POST /stream` sends Server-Sent Events: `language`, `tools_done`, `security_done`, `performance_done`,
 `maintainability_done`, `synthesis_done`, `done`, or `error`. Responses carry `warnings` when a tool or an agent did not run.
 
