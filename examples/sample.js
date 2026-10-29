@@ -18,7 +18,7 @@ app.get("/greet", function (req, res) {
 });
 
 app.get("/download", function (req, res) {
-    // path traversal: ../../etc/passwd
+    // path traversal: the file name is user-controlled and can climb out of ./uploads
     fs.readFile("./uploads/" + req.query.file, function (err, data) {
         res.send(data);
     });

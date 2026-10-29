@@ -135,6 +135,8 @@ checks the generated dataset files, builds the client, and smoke-tests the image
 - The evaluation is small and synthetic (see above). It says little about large real-world repositories.
 - Large inputs can hit the model's output limit; truncated output is retried rather than repaired.
 - In-memory rate limits are per process: one container, not a fleet.
+- On Render the app sits behind the host's web firewall, which can reject a submission containing a known attack string
+  (for example a literal `../../etc/passwd`) with a 403 before it reaches the server. Running the app yourself is unaffected.
 - The specialist prompts still describe the performance agent as receiving only ESLint findings, although Ruff findings now
   reach it. They were left unchanged on purpose: any edit invalidates the evaluation cache.
 
