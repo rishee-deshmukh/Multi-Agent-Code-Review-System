@@ -25,6 +25,7 @@ from pathlib import Path
 EVAL_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(EVAL_DIR))
 
+from records import degraded  # noqa: E402
 from scoring import Label, Pred, bootstrap_ci, match_file, summarize  # noqa: E402
 from taxonomy import OTHER  # noqa: E402
 
@@ -53,7 +54,7 @@ def score_system(system: str, truth: dict, split: str):
         record = records.get(name)
         if record is None:
             continue
-        if record.get("error"):
+        if degraded(record):
             failed.append(name)
             continue
         labels = [Label(name, l["line"], l["class"], l["category"], l["severity"], l["ambiguous"]) for l in entry["labels"]]

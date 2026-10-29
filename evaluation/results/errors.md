@@ -73,3 +73,25 @@ Every false positive and false negative, for manual adjudication. A listed false
 ## test/t48.py
 - **FP** line 2: blacklist → `command_injection` (low)
 - **FP** line 22: hardcoded_tmp_directory → `other` (medium)
+
+## test/t53.js
+- **FN** line 2: `quadratic` (high)
+
+## test/t56.py
+- **FN** line 5: `quadratic` (medium)
+
+## test/t59.py
+- **FP** line 7: PERF401 → `other` (low)
+- **FN** line 9: `io_in_loop` (high)
+
+## test/t61.py
+- **FN** line 19: `path_traversal` (high)
+
+## test/t62.py
+- **FN** line 7: `repeated_work` (medium)
+
+## test/t64.py
+- **FN** line 7: `tls_verification` (high)
+
+## test/t66.py
+- **FN** line 17: `code_injection` (critical)

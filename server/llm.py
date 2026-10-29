@@ -8,6 +8,7 @@ could not run must never look the same as an agent that found nothing.
 import json
 import logging
 import os
+import re
 import time
 from functools import lru_cache
 
@@ -20,6 +21,11 @@ logger = logging.getLogger(__name__)
 DEFAULT_MODEL = "gemini-3.1-flash-lite"
 MAX_ATTEMPTS = 3
 RETRY_DELAYS = (2, 4, 8)  # seconds slept after attempt 1, 2, 3
+MAX_RATE_LIMIT_WAITS = 8   # 429s are waited out for as long as the API asks and do not use up an attempt
+MAX_RATE_LIMIT_DELAY = 90  # never sleep longer than this for one 429
+DEFAULT_RATE_LIMIT_DELAY = 30
+
+_RETRY_IN = re.compile(r"retry in ([\d.]+)s|'retryDelay': '([\d.]+)s'", re.IGNORECASE)
 
 
 class LLMError(RuntimeError):
@@ -28,6 +34,10 @@ class LLMError(RuntimeError):
 
 class LLMUnrecoverableError(LLMError):
     """Retrying cannot help (bad credentials, offline cache miss)."""
+
+
+class DailyQuotaExhausted(LLMUnrecoverableError):
+    """The per-day request quota is spent; nothing will work until it resets."""
 
 
 def model_name() -> str:
@@ -88,6 +98,24 @@ def parse_json(raw: str, expect: type):
     return parsed
 
 
+def _rate_limit_delay(error: Exception) -> float | None:
+    """Seconds to wait if ``error`` is a 429 (None if it is not one).
+
+    Honours the delay the API asks for. A per-day quota cannot be waited out, so it
+    raises ``LLMUnrecoverableError`` instead of burning retries.
+    """
+    text = str(error)
+    if "429" not in text and "RESOURCE_EXHAUSTED" not in text:
+        return None
+    if "perday" in text.lower().replace(" ", "").replace("_", ""):
+        raise DailyQuotaExhausted(
+            "daily API quota exhausted; re-run later with --resume (cached responses are kept)"
+        ) from error
+    match = _RETRY_IN.search(text)
+    asked = float(next(g for g in match.groups() if g)) if match else DEFAULT_RATE_LIMIT_DELAY
+    return min(asked + 1, MAX_RATE_LIMIT_DELAY)
+
+
 def generate_json(system_prompt: str, user_message: str, expect: type):
     """Call the model and return parsed JSON of type ``expect`` (list or dict).
 
@@ -96,16 +124,27 @@ def generate_json(system_prompt: str, user_message: str, expect: type):
     """
     client = _client()
     last_error: Exception | None = None
+    attempt = rate_limit_waits = 0
 
-    for attempt in range(MAX_ATTEMPTS):
+    while True:
         try:
             return parse_json(_generate_text(client, system_prompt, user_message), expect)
         except LLMUnrecoverableError:
             raise
         except Exception as e:
             last_error = e
-            logger.warning("LLM attempt %d/%d failed: %s", attempt + 1, MAX_ATTEMPTS, e)
-            if attempt < MAX_ATTEMPTS - 1:
-                time.sleep(RETRY_DELAYS[attempt])
+
+            delay = _rate_limit_delay(e)
+            if delay is not None and rate_limit_waits < MAX_RATE_LIMIT_WAITS:
+                rate_limit_waits += 1
+                logger.warning("rate limited (%d/%d); waiting %.0fs", rate_limit_waits, MAX_RATE_LIMIT_WAITS, delay)
+                time.sleep(delay)
+                continue
+
+            attempt += 1
+            logger.warning("LLM attempt %d/%d failed: %s", attempt, MAX_ATTEMPTS, e)
+            if attempt >= MAX_ATTEMPTS:
+                break
+            time.sleep(RETRY_DELAYS[attempt - 1])
 
     raise LLMError(f"LLM call failed after {MAX_ATTEMPTS} attempts: {last_error}") from last_error

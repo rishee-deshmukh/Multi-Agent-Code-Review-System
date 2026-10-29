@@ -9,6 +9,8 @@ from taxonomy import CLASSES, OTHER, classify, cwe_to_class, tool_rule_class
     ("OS Command Injection", "security", "command_injection"),
     ("Command Injection via subprocess shell=True", "security", "command_injection"),
     ("Remote Code Execution via eval", "security", "code_injection"),
+    ("Server-Side Template Injection (SSTI)", "security", "code_injection"),
+    ("SSTI in render_template_string", "security", "code_injection"),
     ("Path Traversal", "security", "path_traversal"),
     ("Directory Traversal / Arbitrary File Read", "security", "path_traversal"),
     ("Reflected Cross-Site Scripting (XSS)", "security", "xss"),

@@ -1350,6 +1350,309 @@
         }
       ],
       "notes": []
+    },
+    {
+      "file": "test/t50.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/r2_js_clean_mixed.js",
+      "labels": [],
+      "notes": []
+    },
+    {
+      "file": "test/t51.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/r2_js_git_clone.js",
+      "labels": [
+        {
+          "line": 12,
+          "class": "command_injection",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-77",
+          "ambiguous": false,
+          "note": "startsWith(\"https://\") does not stop shell metacharacters"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t52.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/r2_js_new_function.js",
+      "labels": [
+        {
+          "line": 10,
+          "class": "code_injection",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-94",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t53.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/r2_js_reduce_spread.js",
+      "labels": [
+        {
+          "line": 2,
+          "class": "quadratic",
+          "category": "performance",
+          "severity": "high",
+          "cwe": null,
+          "ambiguous": false,
+          "note": "the accumulator is copied on every step"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t54.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/r2_js_tls_agent.js",
+      "labels": [
+        {
+          "line": 3,
+          "class": "tls_verification",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-295",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t55.js",
+      "split": "test",
+      "language": "javascript",
+      "origin": "dataset/src/test/r2_js_upload_stream.js",
+      "labels": [
+        {
+          "line": 13,
+          "class": "path_traversal",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-22",
+          "ambiguous": false,
+          "note": ":name can contain encoded ../ segments"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t56.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/r2_py_bfs_pop0.py",
+      "labels": [
+        {
+          "line": 5,
+          "class": "quadratic",
+          "category": "performance",
+          "severity": "medium",
+          "cwe": null,
+          "ambiguous": false,
+          "note": "list.pop(0) is O(n); use collections.deque"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t57.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/r2_py_clean_django.py",
+      "labels": [],
+      "notes": []
+    },
+    {
+      "file": "test/t58.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/r2_py_clean_upload.py",
+      "labels": [],
+      "notes": []
+    },
+    {
+      "file": "test/t59.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/r2_py_django_n_plus_one.py",
+      "labels": [
+        {
+          "line": 9,
+          "class": "io_in_loop",
+          "category": "performance",
+          "severity": "high",
+          "cwe": null,
+          "ambiguous": false,
+          "note": "lazy foreign-key fetch: one query per order"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t60.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/r2_py_django_sqli.py",
+      "labels": [
+        {
+          "line": 12,
+          "class": "sql_injection",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-89",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t61.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/r2_py_fastapi_upload.py",
+      "labels": [
+        {
+          "line": 19,
+          "class": "path_traversal",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-22",
+          "ambiguous": false,
+          "note": "client-supplied filename used as the destination"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t62.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/r2_py_file_in_loop.py",
+      "labels": [
+        {
+          "line": 7,
+          "class": "repeated_work",
+          "category": "performance",
+          "severity": "medium",
+          "cwe": null,
+          "ambiguous": false,
+          "note": "the same file is re-read and re-parsed for every record"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t63.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/r2_py_popen.py",
+      "labels": [
+        {
+          "line": 13,
+          "class": "command_injection",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-77",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t64.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/r2_py_session_verify.py",
+      "labels": [
+        {
+          "line": 7,
+          "class": "tls_verification",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-295",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t65.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/r2_py_settings_password.py",
+      "labels": [
+        {
+          "line": 8,
+          "class": "hardcoded_credentials",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-259",
+          "ambiguous": false,
+          "note": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t66.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/r2_py_ssti.py",
+      "labels": [
+        {
+          "line": 16,
+          "class": "xss",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-79",
+          "ambiguous": true,
+          "note": "also reflected; the template-injection label below is the primary issue"
+        },
+        {
+          "line": 17,
+          "class": "code_injection",
+          "category": "security",
+          "severity": "critical",
+          "cwe": "CWE-94",
+          "ambiguous": false,
+          "note": "server-side template injection: user text is compiled as a Jinja template"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "file": "test/t67.py",
+      "split": "test",
+      "language": "python",
+      "origin": "dataset/src/test/r2_py_tar_extract.py",
+      "labels": [
+        {
+          "line": 9,
+          "class": "path_traversal",
+          "category": "security",
+          "severity": "high",
+          "cwe": "CWE-22",
+          "ambiguous": false,
+          "note": "members may be absolute or contain ../ and are written outside dest"
+        }
+      ],
+      "notes": []
     }
   ]
 }
