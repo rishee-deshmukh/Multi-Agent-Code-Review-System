@@ -1,148 +1,368 @@
-# Multi-Agent Code Review
+# Multi-Agent AI System for Automated Code Review
+## Technical Specification — for developers and AI coding assistants
 
-Automated code review for Python and JavaScript. Static analysers (Semgrep, Bandit, Ruff, ESLint) feed three parallel
-Gemini specialists (security, performance, maintainability); a synthesizer merges, ranks and proposes fixed code.
-FastAPI backend with a JSON endpoint and an SSE stream, React + TypeScript UI.
+---
 
-The more interesting part is the evaluation, because **the multi-agent design did not beat the simpler alternatives.**
+## What This Project Is
 
-## Does the multi-agent pipeline actually work better?
+A backend system that performs automated code review on Python and JavaScript code using a multi-agent pipeline. Three LLM agents (Security, Performance, Maintainability) run in parallel via LangGraph. Each agent is grounded by static analysis tool output and reasons using ReAct-style prompting. A Synthesizer agent merges all outputs into a final prioritized report and generates fixed code. FastAPI serves as the HTTP layer with both a standard JSON endpoint and a Server-Sent Events (SSE) streaming endpoint. React + Vite (TypeScript) is the frontend.
 
-Four systems, scored on a held-out set of 67 files (56 labelled issues, 14 clean files) written for this project after
-the static rules were frozen. Scoring is strict: a prediction counts only if file, category and vulnerability class
-match a label within ±3 lines. Brackets are 95% bootstrap intervals over files.
+---
 
-| system | what it is | precision | recall | F1 | clean files with a false alarm | LLM calls / file | latency |
-|---|---|---|---|---|---|---|---|
-| `tools_only` | the four static analysers, no LLM | 0.68 [0.53–0.84] | 0.68 [0.55–0.81] | **0.68** [0.56–0.78] | 4 / 14 | 0 | 1.1 s |
-| `single_llm` | one Gemini call, one generic prompt, no tools | 0.59 [0.48–0.70] | 0.84 [0.73–0.93] | **0.70** [0.59–0.79] | 12 / 14 | 1 | 2.6 s |
-| `multi_agent_no_tools` | the full graph, static findings withheld | 0.22 [0.17–0.27] | 0.73 [0.62–0.84] | **0.34** [0.27–0.40] | 14 / 14 | 4 | 17 s |
-| `multi_agent` | the full system | 0.25 [0.19–0.30] | 0.79 [0.67–0.89] | **0.37** [0.29–0.45] | 14 / 14 | 4 | n/a† |
+## Tech Stack
 
-† Replayed from cache, so no latency was recorded. The no-tools variant measured 17 s per file live.
+- **FastAPI** — HTTP server, receives code, runs static tools, calls LangGraph pipeline
+- **LangGraph** — orchestrates 3 parallel agents + synthesizer, manages shared state
+- **Gemini 3.1 Flash Lite (`gemini-3.1-flash-lite`)** — LLM for the 3 specialist agents (Security, Performance, Maintainability)
+- **Gemini 3.1 Flash Lite (`gemini-3.1-flash-lite`)** — LLM for the Synthesizer agent (higher capacity for merging + code generation)
+- **Semgrep** — static analysis, security patterns, Python + JS
+- **Bandit** — static analysis, security vulnerabilities, Python only
+- **Ruff** — static analysis, lint + style, Python only
+- **ESLint** — static analysis, lint + style, JS only
+- **json-repair** — fallback JSON parsing for malformed LLM responses
+- **React + Vite (TypeScript)** — frontend, code input + real-time streaming results
 
-**What this says**
+---
 
-- **One prompt matches the static tools, and the pipeline does worse than either.** `single_llm` and `tools_only` have
-  indistinguishable F1 (0.70 vs 0.68). The full pipeline's F1 interval (0.29–0.45) does not overlap theirs.
-- **The pipeline's recall is fine; its precision is not.** It finds as much as the others (recall 0.79, intervals overlap
-  with `single_llm`) but reports about three issues per clean file, and every clean file got at least one.
-- **Grounding in static analysis helps a little, not provably.** Adding the analysers' output moved precision 0.22 → 0.25
-  and recall 0.73 → 0.79. The intervals overlap, so this is not shown to differ.
-- **It is not a line-matching artifact.** In files that have labels, no false positive is a labelled class reported near the
-  right line. 96 of the 135 false positives are findings
-  the closed vocabulary cannot classify ("Missing Rate Limiting" alone is 19), which a stricter reading counts against
-  precision. Dropping all of those from every system (`evaluation/sensitivity.py`) gives `multi_agent` 0.53 against 0.78
-  for `single_llm` and 0.70 for `tools_only`: the order does not change. I read three of the 14 clean files
-  (`t02`, `t03`, `t04`: `execFile` with an argument list, parameterized SQL, a validated redirect); the code is safe and the
-  findings are wrong. I did not adjudicate the other false positives one by one.
-- **The tools alone are not "good enough" either.** They miss most performance problems (recall 0.13 on 15 labels) and
-  alarm on 4 of 14 clean files. The LLMs recover performance recall (0.47–0.53) at the cost of noise.
+## Complete File Structure
 
-Why the pipeline is noisy is untested. My guess is that each specialist, asked to review its own domain, nearly always
-returns something; prompts that permit an empty result, or a synthesizer that filters, are the obvious experiments. Any such change spends the `test` split: it would need a fresh held-out set.
+```
+MultiAgent/
+│
+├── server/
+│   ├── main.py                   # FastAPI app, routes: /health, /review, /stream
+│   ├── models.py                 # Pydantic schemas: ReviewRequest, Issue, ReviewResponse
+│   ├── language_detector.py      # Detects python vs javascript from filename or code
+│   ├── tool_runner.py            # Runs Semgrep / Bandit / Ruff / ESLint via subprocess
+│   ├── output_normalizer.py      # Normalizes tool output into categorized findings
+│   │
+│   └── agents/
+│       ├── state.py              # LangGraph AgentState TypedDict
+│       ├── graph.py              # Wires agents into fan-out/fan-in StateGraph
+│       ├── prompts.py            # System prompt constants for all 4 agents
+│       ├── security_agent.py
+│       ├── performance_agent.py
+│       ├── maintainability_agent.py
+│       └── synthesizer_agent.py
+│
+├── client/
+│   ├── index.html
+│   ├── vite.config.ts
+│   ├── tailwind.config.js
+│   ├── package.json
+│   └── src/
+│       ├── App.tsx
+│       ├── main.tsx
+│       ├── index.css
+│       ├── types.ts              # TypeScript types mirroring server Pydantic models
+│       └── components/
+│           ├── Header.tsx
+│           ├── CodeInput.tsx
+│           ├── ProgressPanel.tsx  # SSE stream consumer, drives real-time UI updates
+│           ├── IssueCard.tsx
+│           ├── SeverityBadge.tsx
+│           ├── AgentBadge.tsx
+│           └── SummaryCard.tsx
+│
+├── evaluation/                   # see evaluation/README.md
+│   ├── dataset/src/{dev,test}/   # annotated source: labels are `@label` comments on the vulnerable line
+│   ├── build_dataset.py          # strips markers -> samples/ + ground_truth.json
+│   ├── run_eval.py               # runs a system over the dataset -> results/<system>.json
+│   ├── compute_metrics.py        # scores results -> results/RESULTS.md (with 95% CIs)
+│   ├── systems.py scoring.py taxonomy.py llm_cache.py
+│   └── samples/ ground_truth.json results/ llm_cache/
+│
+├── .env
+├── requirements.txt
+└── README.md
+```
 
-**Read before quoting these numbers.** One labeler (no inter-annotator agreement), synthetic single-purpose files, 67 files
-is small, one run per system with a small "flash-lite" model, and the labels and the static rules share an author.
-Maintainability is generated but not scored. The full protocol, the dev split, per-class recall and every false positive
-are in [`evaluation/README.md`](evaluation/README.md), [`evaluation/results/RESULTS.md`](evaluation/results/RESULTS.md) and
-[`evaluation/results/errors.md`](evaluation/results/errors.md).
+---
 
-**Reproduce it without an API key.** Every Gemini response is cached and committed, and a replay reproduces every
-prediction exactly (checked: 4 systems × 97 files, 0 differences):
+## Request/Response Flow
+
+### Standard (`POST /review`)
+```
+POST /review { code, filename, language? }
+        ↓
+language_detector.py         → returns "python" or "javascript"
+tool_runner.py               → runs relevant static tools via subprocess
+output_normalizer.py         → normalizes all tool outputs to categorized findings
+        ↓
+LangGraph graph.py kicks off
+        ↓
+security_agent.py     ─┐
+performance_agent.py  ─┼─ all run in parallel, each makes one LLM call (Gemini)
+maintainability_agent ─┘
+        ↓
+synthesizer_agent.py         → merges, deduplicates, ranks, generates fixed code (Gemini)
+        ↓
+FastAPI returns JSON ReviewResponse
+```
+
+### Streaming (`POST /stream`)
+Same pipeline but yields SSE events as each stage completes:
+```
+data: {"event": "language", "language": "python"}
+data: {"event": "tools_done"}
+data: {"event": "security_done", "issues": [...]}
+data: {"event": "performance_done", "issues": [...]}
+data: {"event": "maintainability_done", "issues": [...]}
+data: {"event": "synthesis_done", "issues": [...], "summary": "...", "fixed_code": "..."}
+data: {"event": "done"}
+```
+The frontend (`ProgressPanel.tsx`) consumes this stream and updates the UI incrementally as each agent finishes.
+
+---
+
+## File-by-File Spec
+
+### `server/main.py`
+- FastAPI app with CORS enabled for `http://localhost:5173` (Vite dev server)
+- `GET /health` — liveness check, returns `{"status": "ok"}`
+- `POST /review` — standard JSON endpoint, accepts `ReviewRequest`, returns `ReviewResponse`
+- `POST /stream` — SSE streaming endpoint, same pipeline but yields events per-stage via `StreamingResponse`
+- Both routes run: language_detector → tool_runner → output_normalizer → `review_graph.invoke()` / `review_graph.stream()`
+
+### `server/models.py`
+Pydantic models:
+
+```python
+class ReviewRequest(BaseModel):
+    code: str                          # min_length=1
+    filename: Optional[str] = None
+    language: Optional[Language] = None  # if None, language_detector figures it out
+
+class Issue(BaseModel):
+    agent: AgentType                   # "security" | "performance" | "maintainability" | "synthesizer"
+    category: Category                 # "security" | "performance" | "maintainability"
+    issue_type: str
+    severity: SeverityLevel            # "critical" | "high" | "medium" | "low"
+    file: str
+    line: int                          # ge=1
+    evidence: str                      # raw static tool output that flagged this
+    llm_reasoning: str                 # LLM's explanation
+    suggested_fix: str
+    confidence: float                  # 0.0–1.0 based on agent agreement
+    agent_agreement: List[AgentType]   # which agents flagged this issue
+    cross_domain_notes: Optional[str]  # synthesizer insight linking multiple domains
+
+class ReviewResponse(BaseModel):
+    session_id: UUID
+    language: Language
+    issues: List[Issue]
+    total_issues: int
+    summary: str
+    fixed_code: str                    # full corrected code with all fixes applied
+    processing_time_ms: int            # ge=0
+```
+
+### `server/language_detector.py`
+- Input: code string + optional filename
+- If filename ends in `.py` → python
+- If filename ends in `.js/.ts/.jsx/.tsx` → javascript
+- If no filename: scans for Python keywords (`def`, `import`, `print()`) vs JS keywords (`const`, `let`, `function`, `=>`)
+- Returns: `"python"` or `"javascript"`
+
+### `server/tool_runner.py`
+- Input: code string, language string, optional filename
+- Writes code to a temp file using `tempfile.NamedTemporaryFile`
+- Runs tools via `subprocess.run()` with `timeout=30`
+- For Python: runs Semgrep + Bandit + Ruff
+- For JavaScript: runs Semgrep + ESLint
+- Each tool called with JSON output flag
+- Returns dict: `{ "semgrep": [...], "bandit": [...], "ruff": [...], "eslint": [...] }`
+- If a tool fails or times out: logs warning, returns empty list for that tool (graceful degradation)
+
+Tool commands:
+```
+semgrep --json --config=p/python --no-git-ignore --quiet <file>
+bandit -f json -q <file>
+ruff check --output-format=json <file>
+eslint --format=json --no-eslintrc --rule {...} --env node <file>
+```
+
+### `server/output_normalizer.py`
+- Input: raw dict from tool_runner, optional filename
+- Normalizes each tool's output into a common format:
+```python
+{
+    "tool": "semgrep",
+    "rule_id": "...",
+    "message": "...",
+    "file": "...",
+    "line": 12,
+    "severity": "high"
+}
+```
+- Returns: dict with keys `security_findings`, `performance_findings`, `maintainability_findings`
+- Semgrep + Bandit → `security_findings`
+- ESLint performance rules (`no-await-in-loop`, `no-loop-func`) → `performance_findings`
+- Ruff + ESLint style rules → `maintainability_findings`
+- Severity mapping: error→high, warning→medium, info→low
+
+### `server/agents/state.py`
+LangGraph state schema shared across all nodes:
+```python
+class AgentState(TypedDict):
+    # INPUT
+    code: str
+    language: Language
+    filename: Optional[str]
+
+    # STATIC TOOL OUTPUTS
+    tool_outputs: dict
+    security_findings: List[dict]
+    performance_findings: List[dict]
+    maintainability_findings: List[dict]
+
+    # AGENT OUTPUTS (Annotated with operator.add for parallel writes)
+    security_issues: Annotated[List[Issue], operator.add]
+    performance_issues: Annotated[List[Issue], operator.add]
+    maintainability_issues: Annotated[List[Issue], operator.add]
+
+    # SYNTHESIZER OUTPUT
+    final_issues: List[Issue]
+    summary: str
+    fixed_code: str
+```
+
+### `server/agents/graph.py`
+- Defines the LangGraph `StateGraph`
+- Nodes: `security`, `performance`, `maintainability`, `synthesizer`
+- `security` + `performance` + `maintainability` run as parallel nodes (fan-out from START)
+- `synthesizer` runs after all three complete (fan-in)
+- Compiled graph exposed as `review_graph = build_graph().compile()`
+- `main.py` calls: `review_graph.invoke(initial_state)` or `review_graph.stream(initial_state)`
+
+### `server/agents/prompts.py`
+Contains system prompts for all agents as string constants:
+
+- `SECURITY_PROMPT` — security-focused reviewer; given Semgrep + Bandit output + source code; reasons step by step; verifies true/false positives; finds false negatives; returns JSON array of issues
+- `PERFORMANCE_PROMPT` — same structure, focused on scalability, slow algorithms, inefficient patterns
+- `MAINTAINABILITY_PROMPT` — same structure, focused on readability, structure, complexity, naming
+- `SYNTHESIZER_PROMPT` — merges findings from all three agents using an **index-based approach**: the LLM receives a numbered list of all issues (stripped to key fields) and returns `merged_issues` (groups of issue indices with cross-domain notes), `new_issues` (issues the synthesizer itself discovers), `summary`, and `fixed_code`; Python code then reconstructs full Issue objects from the index references
+
+### `server/agents/security_agent.py` / `performance_agent.py` / `maintainability_agent.py`
+All three follow the same pattern:
+- LangGraph node function: `def <name>_agent(state: AgentState) -> dict`
+- Pulls `state["code"]` and `state["<category>_findings"]`
+- Builds user message: findings as formatted JSON + full source code
+- Calls Gemini API with the relevant prompt as system message
+- Uses `cache_control: {"type": "ephemeral"}` on the system prompt for prompt caching
+- Strips markdown fences and extracts JSON array from response
+- Falls back to `json_repair` if `json.loads` fails
+- If static tools returned nothing: prompt says "No static analysis findings available. Analyze directly."
+- Returns `{"<category>_issues": [Issue, ...]}`
+
+### `server/agents/synthesizer_agent.py`
+- LangGraph node function: `def synthesizer_agent(state: AgentState) -> dict`
+- Collects all three agent outputs from state and builds an **indexed flat array** of all issues (stripped to: index, agent, category, issue_type, severity, file, line, suggested_fix) to reduce token usage
+- Calls Gemini API with `SYNTHESIZER_PROMPT`
+- Retry logic: up to 3 attempts with exponential backoff (2s, 4s, 8s) on failure
+- Fallback: if all retries fail, returns raw agent outputs merged without deduplication
+- LLM returns JSON with shape `{"merged_issues": [...], "new_issues": [...], "summary": "...", "fixed_code": "..."}`
+  - `merged_issues`: each entry has `indices` (pointing back to the flat array), `issue_type`, `severity`, `category`, `cross_domain_notes`
+  - `new_issues`: issues Sonnet itself discovers, with full fields
+- Two Python helper functions reconstruct final Issue objects:
+  - `_reconstruct_issues()` — pulls original Issue objects by index, derives `confidence` (1.0 = all 3 agents, 0.67 = 2 agents, 0.33 = 1 agent) and `agent_agreement` from which agents had matching indices
+  - `_parse_new_issues()` — converts new_issues dicts into Issue objects with `agent="synthesizer"`
+- Uses `json_repair` as fallback for malformed LLM JSON
+- Returns `{"final_issues": [...], "summary": "...", "fixed_code": "..."}`
+
+---
+
+## Environment Variables (`.env`)
+
+```
+GEMINI_API_KEY=your_key_here
+```
+
+---
+
+## Python Dependencies (`requirements.txt`)
+
+```
+fastapi
+uvicorn
+pydantic
+python-dotenv
+google-genai
+langgraph
+semgrep
+bandit
+ruff
+json-repair
+```
+
+---
+
+## Frontend Overview (React + Vite + TypeScript)
+
+Two-screen UI driven by the SSE stream:
+
+1. **Idle screen** (`App.tsx` + `CodeInput.tsx`) — textarea for code, optional filename/language fields, submit button; agent pills showing Security / Performance / Maintainability / Synthesizer
+2. **Results screen** (`ProgressPanel.tsx`) — connects to `POST /stream`, updates UI in real time as each agent completes; shows per-agent issue cards, then final synthesized results
+
+Components:
+- `Header.tsx` — status bar showing `ready` / `running` / `done`
+- `CodeInput.tsx` — code textarea + submit
+- `ProgressPanel.tsx` — SSE consumer; renders live agent progress; clears per-agent issue lists once `synthesis_done` fires and displays final merged issues immediately on arrival
+- `IssueCard.tsx` — shows: agent badge, severity badge, issue_type, file:line, evidence, llm_reasoning, suggested_fix, cross_domain_notes
+- `SeverityBadge.tsx` — colored badge: Critical=red, High=orange, Medium=yellow, Low=gray
+- `AgentBadge.tsx` — colored badge per agent type
+- `SummaryCard.tsx` — renders synthesizer summary text
+
+`client/src/types.ts` — TypeScript interfaces mirroring all server Pydantic models + SSE stream event union type.
+
+---
+
+## Evaluation
+
+See [`evaluation/README.md`](evaluation/README.md) for the protocol, the datasets, how to
+reproduce, and the threats to validity. Results: [`evaluation/results/RESULTS.md`](evaluation/results/RESULTS.md).
 
 ```bash
-make install                                   # venv + dependencies; ESLint separately: npm i -g eslint
 cd evaluation
-python run_eval.py --system all --offline      # replay the committed cache, no key, no network
-python compute_metrics.py                      # -> results/RESULTS.md
+python run_eval.py --system all --offline   # replay the committed LLM cache (no key needed)
+python compute_metrics.py
 ```
 
-## How it works
+---
 
-```mermaid
-flowchart LR
-    A[POST /review or /stream] --> B[language detection]
-    B --> C[Semgrep · Bandit · Ruff · ESLint]
-    C --> D[normalize findings]
-    D --> E1[security agent]
-    D --> E2[performance agent]
-    D --> E3[maintainability agent]
-    E1 --> F[synthesizer: merge, rank, fixed code]
-    E2 --> F
-    E3 --> F
-    F --> G[ReviewResponse]
-```
-
-- `server/tool_runner.py` runs the analysers with bundled rules (`server/rules/`); a tool that fails is reported in
-  `warnings`, never silently treated as "no findings".
-- `server/agents/` holds one implementation of the specialist (`base.py`), the prompts, and the LangGraph fan-out/fan-in.
-  `server/llm.py` is the only code that talks to Gemini (retry, rate-limit waits, JSON extraction).
-- If every specialist fails, `/review` returns **502** and `/stream` emits an `error` event. A failure never looks like a clean review.
-- `server/pipeline.py` is shared by the API and the evaluation, so the numbers above come from the code that serves requests.
-- Runtime model: `gemini-3.1-flash-lite` (`GEMINI_MODEL` to override).
-
-## Run it
-
-You need a [Gemini API key](https://aistudio.google.com/apikey).
+## Running the Project
 
 ```bash
-cp .env.example .env            # put GEMINI_API_KEY in it
-docker compose up --build       # http://localhost:8000
+# Backend
+cd server
+pip install -r ../requirements.txt
+uvicorn main:app --reload
+# Server runs on http://localhost:8000
+
+# Frontend
+cd client
+npm install
+npm run dev
+# UI runs on http://localhost:5173
 ```
 
-Or without Docker (Python 3.10+, Node 22):
+---
+
+## Manual Test (curl)
 
 ```bash
-make install && npm i -g eslint
-make run                        # builds the UI, serves everything on http://localhost:8000
-make dev                        # API with reload; `cd client && npm run dev` for the UI on :5173
-make test                       # server, evaluation and dataset checks, all offline
+curl -X POST http://localhost:8000/review \
+  -H "Content-Type: application/json" \
+  -d '{
+    "code": "import os\nuser_input = input()\nos.system(user_input)",
+    "filename": "test.py"
+  }'
 ```
+
+Expected: at least one critical security issue flagging OS command injection.
 
 ```bash
-curl -X POST localhost:8000/review -H 'Content-Type: application/json' \
-  -d '{"code": "import os\nos.system(input())", "filename": "t.py"}'
+# Health check
+curl http://localhost:8000/health
+# {"status": "ok"}
 ```
-
-`POST /stream` sends Server-Sent Events: `language`, `tools_done`, `security_done`, `performance_done`,
-`maintainability_done`, `synthesis_done`, `done`, or `error`. Responses carry `warnings` when a tool or an agent did not run.
-
-## Deploying
-
-The repository ships one Docker image (API, analysers and built UI on one port; non-root; no secrets baked in) and a
-[`render.yaml`](render.yaml) blueprint: in Render, New → Blueprint → this repo, then enter `GEMINI_API_KEY`. The free instance
-has 512 MB; two simultaneous reviews fit (tested with `docker run --memory=512m`).
-
-A public instance can spend your Gemini quota, so it is limited by environment variables (`0` disables each; all in
-[`.env.example`](.env.example)): 20 000 characters per submission, 6 reviews/min per IP, 100 reviews/day overall, 3 at a time.
-Set `TRUST_PROXY_HEADERS=true` only behind a proxy that sets `X-Forwarded-For`.
-
-CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs the server and evaluation tests with the real analysers,
-checks the generated dataset files, builds the client, and smoke-tests the image without any API key.
-
-## Limitations
-
-- Python and JavaScript only. TypeScript files are routed to the JavaScript path, but the ESLint configuration parses plain
-  JavaScript, so they produce parse errors.
-- The evaluation is small and synthetic (see above). It says little about large real-world repositories.
-- Large inputs can hit the model's output limit; truncated output is retried rather than repaired.
-- In-memory rate limits are per process: one container, not a fleet.
-- The specialist prompts still describe the performance agent as receiving only ESLint findings, although Ruff findings now
-  reach it. They were left unchanged on purpose: any edit invalidates the evaluation cache.
-
-## Repository layout
-
-```
-server/       FastAPI app, pipeline, agents, bundled Semgrep rules, tests
-client/       React + Vite + TypeScript UI
-evaluation/   dataset (annotated source), runner, scorer, results, committed LLM cache
-scripts/      image smoke test
-docs/         HANDOFF.md: working notes for continuing the project
-```
-
-## Provenance
-
-The initial pipeline was imported from another repository (see the first commit). The fixes for silent failures and wrong
-results, the evaluation (dataset, scorer, baselines, harness), the request limits and the packaging are later work, in the
-commits after it.
