@@ -1,0 +1,3157 @@
+{
+ "system": "multi_agent",
+ "model": "gemini-3.1-flash-lite",
+ "files": {
+  "dev/d01.py": {
+   "predictions": [
+    {
+     "line": 10,
+     "category": "security",
+     "issue_type": "Arbitrary Code Execution and Path Traversal",
+     "severity": "critical",
+     "class": "code_injection",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Resource Exhaustion (Unbounded File Read)",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.92,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d02.py": {
+   "predictions": [
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "XML External Entity and Billion Laughs vulnerability",
+     "severity": "critical",
+     "class": "xml_parsing",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 4,
+     "category": "security",
+     "issue_type": "Missing input validation",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.97,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d03.py": {
+   "predictions": [
+    {
+     "line": 10,
+     "category": "security",
+     "issue_type": "Reflected XSS and Input Validation",
+     "severity": "high",
+     "class": "xss",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Missing Content-Type Header",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    },
+    {
+     "line": 12,
+     "category": "performance",
+     "issue_type": "Unnecessary object instantiation",
+     "severity": "low",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.83,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d04.py": {
+   "predictions": [
+    {
+     "line": 15,
+     "category": "security",
+     "issue_type": "Insecure and Unbounded Deserialization",
+     "severity": "critical",
+     "class": "deserialization",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "Improper Input Validation",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.92,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d05.py": {
+   "predictions": [
+    {
+     "line": 17,
+     "category": "security",
+     "issue_type": "Insecure and Inefficient URL Validation",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 15,
+     "category": "security",
+     "issue_type": "Missing URL Scheme Validation",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.81,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d06.py": {
+   "predictions": [
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "Open Redirect and Unsafe Validation",
+     "severity": "high",
+     "class": "open_redirect",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 5,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.8,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d07.py": {
+   "predictions": [
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "Unsafe File Deletion",
+     "severity": "critical",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 6,
+     "category": "security",
+     "issue_type": "Missing Authentication/Authorization",
+     "severity": "critical",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.83,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d08.py": {
+   "predictions": [
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Unsafe and Blocking Network Request",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Missing Timeout",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.87,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d09.py": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Insecure and Inefficient File Access",
+     "severity": "critical",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 4,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.82,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d10.py": {
+   "predictions": [
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Zip Slip and Insecure File Extraction",
+     "severity": "critical",
+     "class": "path_traversal",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 3,
+     "category": "security",
+     "issue_type": "Missing Resource Cleanup",
+     "severity": "low",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.79,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d11.py": {
+   "predictions": [
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "OS Command Injection and Unsafe Execution",
+     "severity": "critical",
+     "class": "command_injection",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Missing Error Handling",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.94,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d12.py": {
+   "predictions": [
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "OS Command Injection and Blocking I/O",
+     "severity": "critical",
+     "class": "command_injection",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Insecure Parameter Source",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    },
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Improper HTTP Method Handling",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.92,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d13.py": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "performance",
+     "issue_type": "Inefficient Resource Management",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "Cross-Site Scripting (XSS)",
+     "severity": "high",
+     "class": "xss",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Missing Input Validation",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.79,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d14.py": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Reflected Cross-Site Scripting (XSS) and Unsafe Input Handling",
+     "severity": "high",
+     "class": "xss",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "Missing Content-Type Header",
+     "severity": "low",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.78,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d15.py": {
+   "predictions": [
+    {
+     "line": 14,
+     "category": "security",
+     "issue_type": "Insecure Template Rendering and Resource Management",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 10,
+     "category": "security",
+     "issue_type": "Missing Input Validation",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.78,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d16.py": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Reflected Cross-Site Scripting (XSS)",
+     "severity": "high",
+     "class": "xss",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Missing Input Validation",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.82,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d17.py": {
+   "predictions": [
+    {
+     "line": 16,
+     "category": "security",
+     "issue_type": "SQL Injection",
+     "severity": "critical",
+     "class": "sql_injection",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 15,
+     "category": "performance",
+     "issue_type": "Resource Leak",
+     "severity": "critical",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Hardcoded Credentials",
+     "severity": "high",
+     "class": "hardcoded_credentials",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 15,
+     "category": "security",
+     "issue_type": "Missing Error Handling",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 1.09,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d18.py": {
+   "predictions": [
+    {
+     "line": 16,
+     "category": "security",
+     "issue_type": "SQL Injection",
+     "severity": "critical",
+     "class": "sql_injection",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 15,
+     "category": "performance",
+     "issue_type": "Resource Leak",
+     "severity": "critical",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Hardcoded Credentials",
+     "severity": "high",
+     "class": "hardcoded_credentials",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 15,
+     "category": "security",
+     "issue_type": "Missing Error Handling",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.92,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d19.py": {
+   "predictions": [
+    {
+     "line": 21,
+     "category": "security",
+     "issue_type": "LDAP Injection",
+     "severity": "critical",
+     "class": "ldap_injection",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 19,
+     "category": "performance",
+     "issue_type": "Insecure and Unmanaged LDAP Connection",
+     "severity": "critical",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 6,
+     "category": "security",
+     "issue_type": "Missing Authentication",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.79,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d20.py": {
+   "predictions": [
+    {
+     "line": 22,
+     "category": "security",
+     "issue_type": "Unsafe LDAP Operation and Resource Management",
+     "severity": "critical",
+     "class": "ldap_injection",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "Missing Input Validation",
+     "severity": "high",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.78,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d21.js": {
+   "predictions": [
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "SQL Injection and Unbounded Query",
+     "severity": "critical",
+     "class": "sql_injection",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 4,
+     "category": "security",
+     "issue_type": "Missing Input Validation",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.81,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d22.js": {
+   "predictions": [
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "OS Command Injection and Unsafe Execution",
+     "severity": "critical",
+     "class": "command_injection",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 5,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.93,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d23.js": {
+   "predictions": [
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "critical",
+     "class": "path_traversal",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 9,
+     "category": "performance",
+     "issue_type": "Blocking I/O in Event Loop",
+     "severity": "critical",
+     "class": "io_in_loop",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 10,
+     "category": "security",
+     "issue_type": "Reflected Cross-Site Scripting (XSS)",
+     "severity": "medium",
+     "class": "xss",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 6,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.83,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d24.js": {
+   "predictions": [
+    {
+     "line": 6,
+     "category": "security",
+     "issue_type": "Reflected Cross-Site Scripting (XSS) and Unvalidated Input",
+     "severity": "high",
+     "class": "xss",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 1,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.86,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d25.js": {
+   "predictions": [
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Unsafe SSRF and Unbounded Request Proxying",
+     "severity": "critical",
+     "class": "ssrf",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 9,
+     "category": "security",
+     "issue_type": "Unsafe Response Handling and XSS",
+     "severity": "high",
+     "class": "xss",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 4,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.84,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d26.js": {
+   "predictions": [
+    {
+     "line": 4,
+     "category": "performance",
+     "issue_type": "O(n*m) nested loop complexity",
+     "severity": "high",
+     "class": "quadratic",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.86,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d27.js": {
+   "predictions": [
+    {
+     "line": 5,
+     "category": "performance",
+     "issue_type": "Sequential I/O blocking (N+1 requests)",
+     "severity": "critical",
+     "class": "io_in_loop",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 5,
+     "category": "security",
+     "issue_type": "Improper Input Validation",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 5,
+     "category": "security",
+     "issue_type": "Missing Request Timeout",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    },
+    {
+     "line": 4,
+     "category": "security",
+     "issue_type": "Denial of Service (Resource Exhaustion)",
+     "severity": "low",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.94,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d28.js": {
+   "predictions": [
+    {
+     "line": 5,
+     "category": "performance",
+     "issue_type": "Inefficient string concatenation in loop",
+     "severity": "medium",
+     "class": "string_concat_loop",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.87,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d29.js": {
+   "predictions": [
+    {
+     "line": 3,
+     "category": "performance",
+     "issue_type": "Inefficient and Unsafe Data Processing",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 1,
+     "category": "security",
+     "issue_type": "Input Validation Missing",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 1.02,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "dev/d30.js": {
+   "predictions": [
+    {
+     "line": 7,
+     "category": "performance",
+     "issue_type": "Inefficient Algorithm (O(n\u00b2) complexity) and Prototype Pollution",
+     "severity": "critical",
+     "class": "quadratic",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 1.06,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t01.js": {
+   "predictions": [
+    {
+     "line": 14,
+     "category": "performance",
+     "issue_type": "Database Query Optimization and Error Handling",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.81,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t02.js": {
+   "predictions": [
+    {
+     "line": 11,
+     "category": "performance",
+     "issue_type": "Performance Bottleneck in Git Log Execution",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 26,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "high",
+     "class": "path_traversal",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "Command Injection",
+     "severity": "medium",
+     "class": "command_injection",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.9,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t03.js": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "performance",
+     "issue_type": "N+1 Query Pattern and SQL Injection",
+     "severity": "critical",
+     "class": "io_in_loop",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Missing Input Validation",
+     "severity": "high",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 1.07,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t04.js": {
+   "predictions": [
+    {
+     "line": 5,
+     "category": "performance",
+     "issue_type": "Synchronous I/O and Unsafe Configuration Loading",
+     "severity": "high",
+     "class": "sync_blocking",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 15,
+     "category": "security",
+     "issue_type": "Open Redirect",
+     "severity": "medium",
+     "class": "open_redirect",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.82,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t05.js": {
+   "predictions": [
+    {
+     "line": 4,
+     "category": "performance",
+     "issue_type": "N+1 Query Pattern",
+     "severity": "critical",
+     "class": "io_in_loop",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 1,
+     "category": "security",
+     "issue_type": "Potential Data Leakage / Missing Validation",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.78,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t06.js": {
+   "predictions": [
+    {
+     "line": 2,
+     "category": "performance",
+     "issue_type": "Inefficient O(n*m) complexity and lack of input validation",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 6,
+     "category": "security",
+     "issue_type": "Input validation missing for totalRevenue",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    },
+    {
+     "line": 6,
+     "category": "security",
+     "issue_type": "Insecure Arithmetic / Type Confusion",
+     "severity": "low",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.8,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t07.js": {
+   "predictions": [
+    {
+     "line": 4,
+     "category": "performance",
+     "issue_type": "Inefficient RegExp instantiation in loop",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 4,
+     "category": "security",
+     "issue_type": "ReDoS (Regular Expression Denial of Service)",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 1,
+     "category": "security",
+     "issue_type": "ReDoS (Regular Expression Denial of Service)",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.79,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t08.js": {
+   "predictions": [
+    {
+     "line": 7,
+     "category": "performance",
+     "issue_type": "Blocking I/O and Unoptimized File Access",
+     "severity": "critical",
+     "class": "sync_blocking",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Sensitive Data Exposure",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 5,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.81,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t09.js": {
+   "predictions": [
+    {
+     "line": 5,
+     "category": "performance",
+     "issue_type": "Inefficient O(n*m*k) complexity",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.81,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t10.js": {
+   "predictions": [
+    {
+     "line": 9,
+     "category": "security",
+     "issue_type": "SQL Injection",
+     "severity": "critical",
+     "class": "sql_injection",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Missing Input Validation",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.95,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t11.js": {
+   "predictions": [
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "OS Command Injection and Path Traversal",
+     "severity": "critical",
+     "class": "command_injection",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 5,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.93,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t12.js": {
+   "predictions": [
+    {
+     "line": 9,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "high",
+     "class": "path_traversal",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 10,
+     "category": "performance",
+     "issue_type": "Inefficient File I/O",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.79,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t13.js": {
+   "predictions": [
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Reflected Cross-Site Scripting (XSS) and Input Validation",
+     "severity": "high",
+     "class": "xss",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 1,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.79,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t14.js": {
+   "predictions": [
+    {
+     "line": 4,
+     "category": "security",
+     "issue_type": "DOM-based Cross-Site Scripting (XSS)",
+     "severity": "critical",
+     "class": "xss",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 5,
+     "category": "security",
+     "issue_type": "Information Disclosure",
+     "severity": "low",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.91,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t15.js": {
+   "predictions": [
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Remote Code Execution (RCE) and Unsafe Evaluation",
+     "severity": "critical",
+     "class": "code_injection",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Missing Input Sanitization",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.89,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t16.js": {
+   "predictions": [
+    {
+     "line": 3,
+     "category": "security",
+     "issue_type": "Hardcoded Secret",
+     "severity": "critical",
+     "class": "hardcoded_credentials",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 5,
+     "category": "performance",
+     "issue_type": "Synchronous Cryptographic Operation",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 9,
+     "category": "security",
+     "issue_type": "Missing Error Handling",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.9,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t17.js": {
+   "predictions": [
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Open Redirect",
+     "severity": "medium",
+     "class": "open_redirect",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 3,
+     "category": "security",
+     "issue_type": "Missing Security Headers",
+     "severity": "low",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.78,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t18.js": {
+   "predictions": [
+    {
+     "line": 6,
+     "category": "performance",
+     "issue_type": "Memory Leak / Unbounded Cache",
+     "severity": "critical",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 4,
+     "category": "security",
+     "issue_type": "Insecure Randomness for Session ID",
+     "severity": "high",
+     "class": "insecure_random",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 3,
+     "category": "security",
+     "issue_type": "Missing Input Validation",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.91,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t19.js": {
+   "predictions": [
+    {
+     "line": 4,
+     "category": "security",
+     "issue_type": "Weak Cryptographic Hash and Missing Salt",
+     "severity": "critical",
+     "class": "weak_crypto",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Timing Attack Vulnerability and Buffer Mismatch",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 4,
+     "category": "security",
+     "issue_type": "Synchronous Cryptographic Operations",
+     "severity": "medium",
+     "class": "weak_crypto",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.96,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t20.py": {
+   "predictions": [
+    {
+     "line": 17,
+     "category": "performance",
+     "issue_type": "Inefficient LIKE query",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 18,
+     "category": "security",
+     "issue_type": "SQL Injection (Potential)",
+     "severity": "high",
+     "class": "sql_injection",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    },
+    {
+     "line": 16,
+     "category": "security",
+     "issue_type": "Input Validation and Error Handling",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 15,
+     "category": "performance",
+     "issue_type": "Configuration and Connection Management",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.79,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t21.py": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Command Injection and Process Management",
+     "severity": "high",
+     "class": "command_injection",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 5,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "medium",
+     "class": "path_traversal",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 5,
+     "category": "performance",
+     "issue_type": "Process spawning overhead",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 4,
+     "category": "security",
+     "issue_type": "Missing Error Handling for Subprocess",
+     "severity": "medium",
+     "class": "command_injection",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.79,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t22.py": {
+   "predictions": [
+    {
+     "line": 14,
+     "category": "performance",
+     "issue_type": "File Serving Optimization and Security",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 9,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.78,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t23.py": {
+   "predictions": [
+    {
+     "line": 10,
+     "category": "security",
+     "issue_type": "Path Traversal and Unbounded File Access",
+     "severity": "high",
+     "class": "path_traversal",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 19,
+     "category": "security",
+     "issue_type": "Insecure and Unbounded YAML Parsing",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 27,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.78,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t24.py": {
+   "predictions": [
+    {
+     "line": 22,
+     "category": "performance",
+     "issue_type": "Inefficient and unsafe CSV generation",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 23,
+     "category": "security",
+     "issue_type": "CSV Injection",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 6,
+     "category": "security",
+     "issue_type": "Potential KeyError",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.8,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t25.py": {
+   "predictions": [
+    {
+     "line": 18,
+     "category": "security",
+     "issue_type": "Unsafe and Blocking External Request Handling",
+     "severity": "critical",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 15,
+     "category": "security",
+     "issue_type": "Missing Request Timeout/Validation",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.88,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t26.py": {
+   "predictions": [
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Insecure Randomness",
+     "severity": "low",
+     "class": "insecure_random",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.95,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t27.py": {
+   "predictions": [
+    {
+     "line": 5,
+     "category": "performance",
+     "issue_type": "Algorithmic Complexity (O(n\u00b2) to O(n))",
+     "severity": "high",
+     "class": "quadratic",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Potential KeyError / Type Error",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    },
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Missing Input Validation",
+     "severity": "low",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.77,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t28.py": {
+   "predictions": [
+    {
+     "line": 6,
+     "category": "performance",
+     "issue_type": "N+1 Query Pattern",
+     "severity": "critical",
+     "class": "io_in_loop",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 4,
+     "category": "security",
+     "issue_type": "Unbounded Input",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.98,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t29.py": {
+   "predictions": [
+    {
+     "line": 3,
+     "category": "performance",
+     "issue_type": "Inefficient string concatenation",
+     "severity": "high",
+     "class": "string_concat_loop",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 4,
+     "category": "security",
+     "issue_type": "CSV Injection",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 11,
+     "category": "performance",
+     "issue_type": "Inefficient list creation in loop",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 1,
+     "category": "security",
+     "issue_type": "CSV Injection via Header",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.79,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t30.py": {
+   "predictions": [
+    {
+     "line": 4,
+     "category": "performance",
+     "issue_type": "Inefficient Algorithm / KeyError Risk",
+     "severity": "critical",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 5,
+     "category": "security",
+     "issue_type": "IndexError / Denial of Service",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.86,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t31.py": {
+   "predictions": [
+    {
+     "line": 9,
+     "category": "performance",
+     "issue_type": "Blocking I/O and Unreliable External API Integration",
+     "severity": "critical",
+     "class": "sync_blocking",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 9,
+     "category": "performance",
+     "issue_type": "Redundant external API calls",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 10,
+     "category": "security",
+     "issue_type": "Improper Input Validation",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.8,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t32.py": {
+   "predictions": [
+    {
+     "line": 2,
+     "category": "performance",
+     "issue_type": "O(n*m) nested loop complexity",
+     "severity": "critical",
+     "class": "quadratic",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.81,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t33.py": {
+   "predictions": [
+    {
+     "line": 20,
+     "category": "security",
+     "issue_type": "SQL Injection",
+     "severity": "critical",
+     "class": "sql_injection",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 16,
+     "category": "performance",
+     "issue_type": "Resource Management",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 15,
+     "category": "security",
+     "issue_type": "Missing Input Validation",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 5.44,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t34.py": {
+   "predictions": [
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "OS Command Injection and Blocking I/O",
+     "severity": "critical",
+     "class": "command_injection",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 1.07,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t35.py": {
+   "predictions": [
+    {
+     "line": 14,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "high",
+     "class": "path_traversal",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 16,
+     "category": "performance",
+     "issue_type": "Blocking I/O in synchronous route",
+     "severity": "medium",
+     "class": "sync_blocking",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 3.25,
+   "llm_calls": 4,
+   "cache_hits": 3
+  },
+  "test/t36.py": {
+   "predictions": [
+    {
+     "line": 16,
+     "category": "security",
+     "issue_type": "Reflected Cross-Site Scripting (XSS) and Poor HTML Generation",
+     "severity": "high",
+     "class": "xss",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.8,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t37.py": {
+   "predictions": [
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Unsafe and Blocking External Request",
+     "severity": "critical",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 3.98,
+   "llm_calls": 4,
+   "cache_hits": 3
+  },
+  "test/t38.py": {
+   "predictions": [
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Insecure Deserialization",
+     "severity": "critical",
+     "class": "deserialization",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Missing Request Size Limit",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 5.05,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t39.py": {
+   "predictions": [
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "Insecure Deserialization",
+     "severity": "critical",
+     "class": "deserialization",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Missing Cookie Integrity Protection",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 4.81,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t40.py": {
+   "predictions": [
+    {
+     "line": 5,
+     "category": "security",
+     "issue_type": "Hardcoded Credentials",
+     "severity": "critical",
+     "class": "hardcoded_credentials",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 10,
+     "category": "performance",
+     "issue_type": "Connection Management",
+     "severity": "critical",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 14,
+     "category": "security",
+     "issue_type": "SQL Injection Risk",
+     "severity": "medium",
+     "class": "sql_injection",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 6.45,
+   "llm_calls": 4,
+   "cache_hits": 1
+  },
+  "test/t41.py": {
+   "predictions": [
+    {
+     "line": 6,
+     "category": "security",
+     "issue_type": "Insecure Password Hashing",
+     "severity": "critical",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 5,
+     "category": "security",
+     "issue_type": "Unbounded Input Length",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 5.32,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t42.py": {
+   "predictions": [
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "Security/Performance: Unsafe and blocking logging",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 17,
+     "category": "security",
+     "issue_type": "Open Redirect",
+     "severity": "medium",
+     "class": "open_redirect",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 5.63,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t43.py": {
+   "predictions": [
+    {
+     "line": 5,
+     "category": "security",
+     "issue_type": "XML External Entity (XXE) Injection",
+     "severity": "critical",
+     "class": "xml_parsing",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 6,
+     "category": "security",
+     "issue_type": "XML Bomb (Billion Laughs Attack)",
+     "severity": "high",
+     "class": "xml_parsing",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 5.04,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t44.py": {
+   "predictions": [
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Insecure and Inefficient Network Request",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 10,
+     "category": "security",
+     "issue_type": "Missing Input Validation",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 6.53,
+   "llm_calls": 4,
+   "cache_hits": 1
+  },
+  "test/t45.py": {
+   "predictions": [
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Remote Code Execution",
+     "severity": "critical",
+     "class": "code_injection",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Missing Input Sanitization",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 5.23,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t46.py": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Insecure and Non-Production Server Configuration",
+     "severity": "critical",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 3,
+     "category": "security",
+     "issue_type": "Missing Security Headers",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 4.91,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t47.py": {
+   "predictions": [
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Insecure Randomness",
+     "severity": "high",
+     "class": "insecure_random",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "Insecure Token Storage and Memory Management",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 10,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 5.35,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t48.py": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "SQL Injection",
+     "severity": "critical",
+     "class": "sql_injection",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 21,
+     "category": "security",
+     "issue_type": "OS Command Injection and Blocking I/O",
+     "severity": "critical",
+     "class": "command_injection",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 21,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "high",
+     "class": "path_traversal",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 5.85,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t49.py": {
+   "predictions": [
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "Insecure TLS Configuration",
+     "severity": "critical",
+     "class": "tls_verification",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 5,
+     "category": "security",
+     "issue_type": "Hardcoded Secret",
+     "severity": "high",
+     "class": "hardcoded_credentials",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 9,
+     "category": "security",
+     "issue_type": "Weak Cryptographic Hash and Memory Inefficiency",
+     "severity": "medium",
+     "class": "weak_crypto",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "Sensitive Data Exposure in Logs",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 7.13,
+   "llm_calls": 4,
+   "cache_hits": 1
+  },
+  "test/t50.js": {
+   "predictions": [
+    {
+     "line": 16,
+     "category": "security",
+     "issue_type": "Command Injection and Resource Exhaustion",
+     "severity": "critical",
+     "class": "command_injection",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 24,
+     "category": "security",
+     "issue_type": "Unsafe File Uploads",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.95,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t51.js": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "OS Command Injection and Resource Exhaustion",
+     "severity": "critical",
+     "class": "command_injection",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 6,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 5.46,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t52.js": {
+   "predictions": [
+    {
+     "line": 10,
+     "category": "security",
+     "issue_type": "Remote Code Execution via Function Constructor",
+     "severity": "critical",
+     "class": "code_injection",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 10,
+     "category": "security",
+     "issue_type": "Missing Error Handling",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 7.1,
+   "llm_calls": 4,
+   "cache_hits": 1
+  },
+  "test/t53.js": {
+   "predictions": [
+    {
+     "line": 2,
+     "category": "performance",
+     "issue_type": "Inefficient array accumulation",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.9,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t54.js": {
+   "predictions": [
+    {
+     "line": 3,
+     "category": "security",
+     "issue_type": "Disabled TLS Certificate Verification",
+     "severity": "critical",
+     "class": "tls_verification",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 10,
+     "category": "security",
+     "issue_type": "Unsafe JSON Parsing and Error Handling",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 9,
+     "category": "performance",
+     "issue_type": "Inefficient string concatenation",
+     "severity": "medium",
+     "class": "string_concat_loop",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 6,
+     "category": "security",
+     "issue_type": "Missing Request Timeout",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 5.69,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t55.js": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "critical",
+     "class": "path_traversal",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Missing Authentication/Authorization",
+     "severity": "critical",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    },
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "Unrestricted File Upload",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 11,
+     "category": "performance",
+     "issue_type": "Blocking I/O / Lack of Stream Backpressure",
+     "severity": "medium",
+     "class": "sync_blocking",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 6.11,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t56.py": {
+   "predictions": [
+    {
+     "line": 5,
+     "category": "performance",
+     "issue_type": "Inefficient queue operation",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 10,
+     "category": "performance",
+     "issue_type": "Inefficient path construction",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 10,
+     "category": "performance",
+     "issue_type": "Memory inefficiency in path storage",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.93,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t57.py": {
+   "predictions": [
+    {
+     "line": 26,
+     "category": "performance",
+     "issue_type": "N+1 Query / Unbounded Query",
+     "severity": "high",
+     "class": "io_in_loop",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 10,
+     "category": "security",
+     "issue_type": "Missing Authorization",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    },
+    {
+     "line": 13,
+     "category": "performance",
+     "issue_type": "Potential N+1 Query and Code Style",
+     "severity": "medium",
+     "class": "io_in_loop",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 19,
+     "category": "performance",
+     "issue_type": "Inefficient Raw SQL Usage",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 10,
+     "category": "security",
+     "issue_type": "Missing Authorization",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 23,
+     "category": "security",
+     "issue_type": "Information Exposure",
+     "severity": "low",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 6.0,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t58.py": {
+   "predictions": [
+    {
+     "line": 28,
+     "category": "security",
+     "issue_type": "Zip Slip / Arbitrary File Write",
+     "severity": "critical",
+     "class": "path_traversal",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 18,
+     "category": "performance",
+     "issue_type": "Blocking I/O and Memory Exhaustion",
+     "severity": "high",
+     "class": "sync_blocking",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 14,
+     "category": "security",
+     "issue_type": "Insecure File Upload Configuration",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Missing Rate Limiting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 6.89,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t59.py": {
+   "predictions": [
+    {
+     "line": 6,
+     "category": "performance",
+     "issue_type": "N+1 Query Problem",
+     "severity": "critical",
+     "class": "io_in_loop",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 4,
+     "category": "security",
+     "issue_type": "Missing Authorization",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    },
+    {
+     "line": 7,
+     "category": "performance",
+     "issue_type": "Inefficient List Construction",
+     "severity": "low",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 4.91,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t60.py": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "SQL Injection and Inefficient Query Execution",
+     "severity": "critical",
+     "class": "sql_injection",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 9,
+     "category": "security",
+     "issue_type": "Missing Input Validation",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 7.17,
+   "llm_calls": 4,
+   "cache_hits": 1
+  },
+  "test/t61.py": {
+   "predictions": [
+    {
+     "line": 18,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "critical",
+     "class": "path_traversal",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 12,
+     "category": "performance",
+     "issue_type": "Blocking I/O and Memory Exhaustion",
+     "severity": "critical",
+     "class": "sync_blocking",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 15,
+     "category": "security",
+     "issue_type": "Unrestricted File Upload",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Missing File Extension Validation",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 6.11,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t62.py": {
+   "predictions": [
+    {
+     "line": 6,
+     "category": "performance",
+     "issue_type": "I/O inside loop",
+     "severity": "critical",
+     "class": "io_in_loop",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 6,
+     "category": "security",
+     "issue_type": "Path Traversal / File Access",
+     "severity": "medium",
+     "class": "path_traversal",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    },
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "KeyError Vulnerability",
+     "severity": "low",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.9,
+   "llm_calls": 4,
+   "cache_hits": 4
+  },
+  "test/t63.py": {
+   "predictions": [
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "OS Command Injection and Inefficient Subprocess Usage",
+     "severity": "critical",
+     "class": "command_injection",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 17,
+     "category": "performance",
+     "issue_type": "Blocking I/O in synchronous loop",
+     "severity": "critical",
+     "class": "io_in_loop",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 18,
+     "category": "security",
+     "issue_type": "Improper Input Validation",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Missing Error Handling for Network Operations",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 5.59,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t64.py": {
+   "predictions": [
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Insecure TLS Configuration and Data Exposure",
+     "severity": "high",
+     "class": "tls_verification",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 12,
+     "category": "performance",
+     "issue_type": "Connection pooling anti-pattern",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Missing Error Handling for Network Requests",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 5.66,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t65.py": {
+   "predictions": [
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Hardcoded Credentials",
+     "severity": "critical",
+     "class": "hardcoded_credentials",
+     "agent": "synthesizer",
+     "confidence": 0.67
+    },
+    {
+     "line": 14,
+     "category": "performance",
+     "issue_type": "Connection overhead per request",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 17,
+     "category": "security",
+     "issue_type": "Insecure SMTP Configuration",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "Missing Input Validation",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 5.91,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t66.py": {
+   "predictions": [
+    {
+     "line": 17,
+     "category": "security",
+     "issue_type": "Cross-Site Scripting (XSS) and Inefficient Template Handling",
+     "severity": "high",
+     "class": "xss",
+     "agent": "synthesizer",
+     "confidence": 1.0
+    },
+    {
+     "line": 14,
+     "category": "security",
+     "issue_type": "Improper Input Validation",
+     "severity": "medium",
+     "class": "missing_validation",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "Missing Input Sanitization/Length Limit",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 5.82,
+   "llm_calls": 4,
+   "cache_hits": 2
+  },
+  "test/t67.py": {
+   "predictions": [
+    {
+     "line": 9,
+     "category": "security",
+     "issue_type": "Zip Slip / Path Traversal",
+     "severity": "critical",
+     "class": "path_traversal",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    },
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Resource Exhaustion (Zip Bomb)",
+     "severity": "high",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.4
+    },
+    {
+     "line": 8,
+     "category": "performance",
+     "issue_type": "Inefficient Archive Processing",
+     "severity": "medium",
+     "class": "other",
+     "agent": "synthesizer",
+     "confidence": 0.33
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 4.85,
+   "llm_calls": 4,
+   "cache_hits": 2
+  }
+ },
+ "created": "2026-10-29T04:08:59+00:00"
+}
