@@ -43,9 +43,9 @@ FastAPI backend in `server/`, React + Vite + TypeScript + Tailwind frontend in `
 |---|---|---|
 | 1 | Correctness bugs and silent failures | **Done**, pushed, tested |
 | 2 | Evaluation rebuild (dataset, scorer, baselines, harness) | **Done**, pushed, tested |
-| 2b | Run the LLM systems and publish numbers | **Pending**: blocked by the free-tier daily API quota, see section 7 |
+| 2b | Run the LLM systems and publish numbers | **Done**: all four systems, 97 files, 0 failed; cache and results committed; offline replay verified identical. Headline: the multi-agent pipeline did not beat `single_llm` or `tools_only` (see root README) |
 | 3 | Packaging: Docker, hosting, CI, rate limiting, CORS | **Done except**: no `LICENSE` (owner's choice), nothing deployed to a host yet, CI workflow not yet run on GitHub. Image build and `scripts/smoke_test.sh` verified locally |
-| 4 | README that leads with results and a demo | **Not started** (the README is partly stale, see section 9) |
+| 4 | README that leads with results and a demo | **Done except the demo GIF/screenshot** (could not be recorded in the session). README rewritten, stale claims removed |
 | 5 | Optional features | Deliberately deferred |
 
 Commits on the branch, oldest first:

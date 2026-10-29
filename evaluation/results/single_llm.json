@@ -1,0 +1,1895 @@
+{
+ "system": "single_llm",
+ "model": "gemini-3.1-flash-lite",
+ "files": {
+  "dev/d01.py": {
+   "predictions": [
+    {
+     "line": 9,
+     "category": "security",
+     "issue_type": "Insecure Deserialization",
+     "severity": "high",
+     "class": "deserialization",
+     "agent": "single_llm",
+     "confidence": 0.9
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.04,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d02.py": {
+   "predictions": [
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "XML External Entity (XXE) Injection",
+     "severity": "high",
+     "class": "xml_parsing",
+     "agent": "single_llm",
+     "confidence": 0.9
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d03.py": {
+   "predictions": [
+    {
+     "line": 10,
+     "category": "security",
+     "issue_type": "Reflected Cross-Site Scripting (XSS)",
+     "severity": "high",
+     "class": "xss",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d04.py": {
+   "predictions": [
+    {
+     "line": 15,
+     "category": "security",
+     "issue_type": "Insecure Deserialization",
+     "severity": "critical",
+     "class": "deserialization",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d05.py": {
+   "predictions": [
+    {
+     "line": 16,
+     "category": "security",
+     "issue_type": "Open Redirect",
+     "severity": "high",
+     "class": "open_redirect",
+     "agent": "single_llm",
+     "confidence": 0.9
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d06.py": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Open Redirect",
+     "severity": "high",
+     "class": "open_redirect",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d07.py": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "critical",
+     "class": "path_traversal",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d08.py": {
+   "predictions": [
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Server-Side Request Forgery (SSRF)",
+     "severity": "high",
+     "class": "ssrf",
+     "agent": "single_llm",
+     "confidence": 0.9
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d09.py": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "critical",
+     "class": "path_traversal",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d10.py": {
+   "predictions": [
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Zip Slip / Path Traversal",
+     "severity": "critical",
+     "class": "path_traversal",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d11.py": {
+   "predictions": [
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Command Injection",
+     "severity": "critical",
+     "class": "command_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d12.py": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "OS Command Injection",
+     "severity": "critical",
+     "class": "command_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    },
+    {
+     "line": 10,
+     "category": "security",
+     "issue_type": "Incorrect HTTP Method Handling",
+     "severity": "medium",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 0.9
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d13.py": {
+   "predictions": [
+    {
+     "line": 15,
+     "category": "security",
+     "issue_type": "Server-Side Template Injection (SSTI)",
+     "severity": "critical",
+     "class": "code_injection",
+     "agent": "single_llm",
+     "confidence": 0.85
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d14.py": {
+   "predictions": [
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Reflected Cross-Site Scripting (XSS)",
+     "severity": "high",
+     "class": "xss",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d15.py": {
+   "predictions": [
+    {
+     "line": 14,
+     "category": "security",
+     "issue_type": "Reflected Cross-Site Scripting (XSS)",
+     "severity": "critical",
+     "class": "xss",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d16.py": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Reflected Cross-Site Scripting (XSS)",
+     "severity": "high",
+     "class": "xss",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d17.py": {
+   "predictions": [
+    {
+     "line": 15,
+     "category": "security",
+     "issue_type": "SQL Injection",
+     "severity": "critical",
+     "class": "sql_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d18.py": {
+   "predictions": [
+    {
+     "line": 15,
+     "category": "security",
+     "issue_type": "SQL Injection",
+     "severity": "critical",
+     "class": "sql_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d19.py": {
+   "predictions": [
+    {
+     "line": 17,
+     "category": "security",
+     "issue_type": "LDAP Injection",
+     "severity": "critical",
+     "class": "ldap_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    },
+    {
+     "line": 16,
+     "category": "security",
+     "issue_type": "LDAP Injection",
+     "severity": "high",
+     "class": "ldap_injection",
+     "agent": "single_llm",
+     "confidence": 0.9
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d20.py": {
+   "predictions": [
+    {
+     "line": 18,
+     "category": "security",
+     "issue_type": "LDAP Injection",
+     "severity": "critical",
+     "class": "ldap_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    },
+    {
+     "line": 17,
+     "category": "security",
+     "issue_type": "LDAP Injection / Improper Input Validation",
+     "severity": "high",
+     "class": "ldap_injection",
+     "agent": "single_llm",
+     "confidence": 0.9
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d21.js": {
+   "predictions": [
+    {
+     "line": 6,
+     "category": "security",
+     "issue_type": "SQL Injection",
+     "severity": "critical",
+     "class": "sql_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d22.js": {
+   "predictions": [
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Command Injection",
+     "severity": "critical",
+     "class": "command_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d23.js": {
+   "predictions": [
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "critical",
+     "class": "path_traversal",
+     "agent": "single_llm",
+     "confidence": 1.0
+    },
+    {
+     "line": 9,
+     "category": "performance",
+     "issue_type": "Synchronous File I/O",
+     "severity": "medium",
+     "class": "sync_blocking",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d24.js": {
+   "predictions": [
+    {
+     "line": 6,
+     "category": "security",
+     "issue_type": "Reflected Cross-Site Scripting (XSS)",
+     "severity": "high",
+     "class": "xss",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d25.js": {
+   "predictions": [
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Server-Side Request Forgery (SSRF)",
+     "severity": "critical",
+     "class": "ssrf",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d26.js": {
+   "predictions": [
+    {
+     "line": 4,
+     "category": "performance",
+     "issue_type": "Inefficient Algorithm",
+     "severity": "medium",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d27.js": {
+   "predictions": [
+    {
+     "line": 4,
+     "category": "performance",
+     "issue_type": "Performance Bottleneck (Sequential Requests)",
+     "severity": "medium",
+     "class": "io_in_loop",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d28.js": {
+   "predictions": [
+    {
+     "line": 5,
+     "category": "performance",
+     "issue_type": "Inefficient String Concatenation",
+     "severity": "low",
+     "class": "string_concat_loop",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d29.js": {
+   "predictions": [
+    {
+     "line": 2,
+     "category": "performance",
+     "issue_type": "Redundant Operations",
+     "severity": "low",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "dev/d30.js": {
+   "predictions": [
+    {
+     "line": 6,
+     "category": "performance",
+     "issue_type": "Inefficient Algorithm (O(n^2))",
+     "severity": "high",
+     "class": "quadratic",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t01.js": {
+   "predictions": [
+    {
+     "line": 7,
+     "category": "performance",
+     "issue_type": "Potential Denial of Service (ReDoS)",
+     "severity": "low",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 0.7
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t02.js": {
+   "predictions": [
+    {
+     "line": 21,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "high",
+     "class": "path_traversal",
+     "agent": "single_llm",
+     "confidence": 0.8
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t03.js": {
+   "predictions": [
+    {
+     "line": 11,
+     "category": "performance",
+     "issue_type": "N+1 Query",
+     "severity": "high",
+     "class": "io_in_loop",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t04.js": {
+   "predictions": [
+    {
+     "line": 4,
+     "category": "performance",
+     "issue_type": "Synchronous File I/O",
+     "severity": "low",
+     "class": "sync_blocking",
+     "agent": "single_llm",
+     "confidence": 0.8
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t05.js": {
+   "predictions": [
+    {
+     "line": 4,
+     "category": "performance",
+     "issue_type": "N+1 Query",
+     "severity": "high",
+     "class": "io_in_loop",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t06.js": {
+   "predictions": [
+    {
+     "line": 2,
+     "category": "performance",
+     "issue_type": "O(n*m) Complexity",
+     "severity": "medium",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t07.js": {
+   "predictions": [
+    {
+     "line": 4,
+     "category": "performance",
+     "issue_type": "Performance",
+     "severity": "medium",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t08.js": {
+   "predictions": [
+    {
+     "line": 7,
+     "category": "performance",
+     "issue_type": "Synchronous File I/O",
+     "severity": "medium",
+     "class": "sync_blocking",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t09.js": {
+   "predictions": [
+    {
+     "line": 5,
+     "category": "performance",
+     "issue_type": "Inefficient Algorithm",
+     "severity": "medium",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t10.js": {
+   "predictions": [
+    {
+     "line": 9,
+     "category": "security",
+     "issue_type": "SQL Injection",
+     "severity": "critical",
+     "class": "sql_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t11.js": {
+   "predictions": [
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Command Injection",
+     "severity": "critical",
+     "class": "command_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    },
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "high",
+     "class": "path_traversal",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t12.js": {
+   "predictions": [
+    {
+     "line": 9,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "critical",
+     "class": "path_traversal",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t13.js": {
+   "predictions": [
+    {
+     "line": 6,
+     "category": "security",
+     "issue_type": "Cross-Site Scripting (XSS)",
+     "severity": "high",
+     "class": "xss",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t14.js": {
+   "predictions": [
+    {
+     "line": 4,
+     "category": "security",
+     "issue_type": "DOM-based Cross-Site Scripting (XSS)",
+     "severity": "high",
+     "class": "xss",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t15.js": {
+   "predictions": [
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Remote Code Execution",
+     "severity": "critical",
+     "class": "code_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t16.js": {
+   "predictions": [
+    {
+     "line": 3,
+     "category": "security",
+     "issue_type": "Hardcoded Secret",
+     "severity": "critical",
+     "class": "hardcoded_credentials",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t17.js": {
+   "predictions": [
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Open Redirect",
+     "severity": "high",
+     "class": "open_redirect",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t18.js": {
+   "predictions": [
+    {
+     "line": 4,
+     "category": "security",
+     "issue_type": "Insecure Randomness",
+     "severity": "high",
+     "class": "insecure_random",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t19.js": {
+   "predictions": [
+    {
+     "line": 4,
+     "category": "security",
+     "issue_type": "Weak Hashing Algorithm",
+     "severity": "critical",
+     "class": "weak_crypto",
+     "agent": "single_llm",
+     "confidence": 1.0
+    },
+    {
+     "line": 4,
+     "category": "security",
+     "issue_type": "Missing Salt",
+     "severity": "critical",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 1.0
+    },
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Timing Attack Vulnerability",
+     "severity": "medium",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 0.8
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t20.py": {
+   "predictions": [
+    {
+     "line": 15,
+     "category": "performance",
+     "issue_type": "Resource Exhaustion",
+     "severity": "medium",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 0.7
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t21.py": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Command Injection",
+     "severity": "high",
+     "class": "command_injection",
+     "agent": "single_llm",
+     "confidence": 0.85
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t22.py": {
+   "predictions": [
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "low",
+     "class": "path_traversal",
+     "agent": "single_llm",
+     "confidence": 0.7
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t23.py": {
+   "predictions": [],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t24.py": {
+   "predictions": [
+    {
+     "line": 23,
+     "category": "security",
+     "issue_type": "CSV Injection / Improper CSV Formatting",
+     "severity": "medium",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 0.9
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t25.py": {
+   "predictions": [
+    {
+     "line": 16,
+     "category": "security",
+     "issue_type": "Server-Side Request Forgery (SSRF)",
+     "severity": "high",
+     "class": "ssrf",
+     "agent": "single_llm",
+     "confidence": 0.7
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t26.py": {
+   "predictions": [],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t27.py": {
+   "predictions": [
+    {
+     "line": 3,
+     "category": "performance",
+     "issue_type": "Inefficient Lookup",
+     "severity": "medium",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t28.py": {
+   "predictions": [
+    {
+     "line": 6,
+     "category": "performance",
+     "issue_type": "N+1 Query",
+     "severity": "high",
+     "class": "io_in_loop",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t29.py": {
+   "predictions": [
+    {
+     "line": 3,
+     "category": "performance",
+     "issue_type": "Performance: String Concatenation in Loop",
+     "severity": "medium",
+     "class": "string_concat_loop",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t30.py": {
+   "predictions": [
+    {
+     "line": 4,
+     "category": "performance",
+     "issue_type": "Inefficient Algorithm",
+     "severity": "medium",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t31.py": {
+   "predictions": [
+    {
+     "line": 9,
+     "category": "performance",
+     "issue_type": "Blocking I/O in Async Function",
+     "severity": "medium",
+     "class": "sync_blocking",
+     "agent": "single_llm",
+     "confidence": 0.95
+    },
+    {
+     "line": 10,
+     "category": "security",
+     "issue_type": "Unchecked Dictionary Access",
+     "severity": "low",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 0.9
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t32.py": {
+   "predictions": [
+    {
+     "line": 2,
+     "category": "performance",
+     "issue_type": "N+1 Query / Nested Loop Complexity",
+     "severity": "medium",
+     "class": "io_in_loop",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t33.py": {
+   "predictions": [
+    {
+     "line": 18,
+     "category": "security",
+     "issue_type": "SQL Injection",
+     "severity": "critical",
+     "class": "sql_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t34.py": {
+   "predictions": [
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "Command Injection",
+     "severity": "critical",
+     "class": "command_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t35.py": {
+   "predictions": [
+    {
+     "line": 13,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "critical",
+     "class": "path_traversal",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t36.py": {
+   "predictions": [
+    {
+     "line": 16,
+     "category": "security",
+     "issue_type": "Reflected Cross-Site Scripting (XSS)",
+     "severity": "high",
+     "class": "xss",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t37.py": {
+   "predictions": [
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Server-Side Request Forgery (SSRF)",
+     "severity": "critical",
+     "class": "ssrf",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t38.py": {
+   "predictions": [
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Insecure Deserialization",
+     "severity": "critical",
+     "class": "deserialization",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t39.py": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Insecure Deserialization",
+     "severity": "critical",
+     "class": "deserialization",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t40.py": {
+   "predictions": [
+    {
+     "line": 5,
+     "category": "security",
+     "issue_type": "Hardcoded Credentials",
+     "severity": "critical",
+     "class": "hardcoded_credentials",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t41.py": {
+   "predictions": [
+    {
+     "line": 6,
+     "category": "security",
+     "issue_type": "Weak Hashing Algorithm",
+     "severity": "critical",
+     "class": "weak_crypto",
+     "agent": "single_llm",
+     "confidence": 1.0
+    },
+    {
+     "line": 6,
+     "category": "security",
+     "issue_type": "Missing Salt",
+     "severity": "critical",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t42.py": {
+   "predictions": [
+    {
+     "line": 15,
+     "category": "security",
+     "issue_type": "Open Redirect",
+     "severity": "high",
+     "class": "open_redirect",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t43.py": {
+   "predictions": [
+    {
+     "line": 5,
+     "category": "security",
+     "issue_type": "XML External Entity (XXE) Injection",
+     "severity": "critical",
+     "class": "xml_parsing",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t44.py": {
+   "predictions": [
+    {
+     "line": 10,
+     "category": "security",
+     "issue_type": "Disabled SSL Certificate Verification",
+     "severity": "critical",
+     "class": "tls_verification",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t45.py": {
+   "predictions": [
+    {
+     "line": 10,
+     "category": "security",
+     "issue_type": "Remote Code Execution",
+     "severity": "critical",
+     "class": "code_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t46.py": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Debug Mode Enabled",
+     "severity": "critical",
+     "class": "debug_enabled",
+     "agent": "single_llm",
+     "confidence": 1.0
+    },
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Development Server Usage",
+     "severity": "high",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 0.9
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t47.py": {
+   "predictions": [
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Insecure Randomness",
+     "severity": "high",
+     "class": "insecure_random",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t48.py": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "SQL Injection",
+     "severity": "critical",
+     "class": "sql_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    },
+    {
+     "line": 20,
+     "category": "security",
+     "issue_type": "Command Injection",
+     "severity": "critical",
+     "class": "command_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t49.py": {
+   "predictions": [
+    {
+     "line": 5,
+     "category": "security",
+     "issue_type": "Hardcoded Credentials",
+     "severity": "critical",
+     "class": "hardcoded_credentials",
+     "agent": "single_llm",
+     "confidence": 1.0
+    },
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Disabled SSL Verification",
+     "severity": "high",
+     "class": "tls_verification",
+     "agent": "single_llm",
+     "confidence": 1.0
+    },
+    {
+     "line": 9,
+     "category": "security",
+     "issue_type": "Weak Cryptographic Hash",
+     "severity": "medium",
+     "class": "weak_crypto",
+     "agent": "single_llm",
+     "confidence": 0.9
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 0.0,
+   "llm_calls": 1,
+   "cache_hits": 1
+  },
+  "test/t50.js": {
+   "predictions": [
+    {
+     "line": 17,
+     "category": "security",
+     "issue_type": "Command Injection",
+     "severity": "critical",
+     "class": "command_injection",
+     "agent": "single_llm",
+     "confidence": 0.7
+    },
+    {
+     "line": 24,
+     "category": "security",
+     "issue_type": "Unrestricted File Upload",
+     "severity": "high",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 0.9
+    },
+    {
+     "line": 17,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "medium",
+     "class": "path_traversal",
+     "agent": "single_llm",
+     "confidence": 0.8
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 2.54,
+   "llm_calls": 1,
+   "cache_hits": 0
+  },
+  "test/t51.js": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "Command Injection",
+     "severity": "critical",
+     "class": "command_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 3.7,
+   "llm_calls": 1,
+   "cache_hits": 0
+  },
+  "test/t52.js": {
+   "predictions": [
+    {
+     "line": 9,
+     "category": "security",
+     "issue_type": "Remote Code Execution",
+     "severity": "critical",
+     "class": "code_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 6.98,
+   "llm_calls": 1,
+   "cache_hits": 0
+  },
+  "test/t53.js": {
+   "predictions": [
+    {
+     "line": 2,
+     "category": "performance",
+     "issue_type": "Performance (O(n^2) complexity)",
+     "severity": "medium",
+     "class": "quadratic",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 8.57,
+   "llm_calls": 1,
+   "cache_hits": 0
+  },
+  "test/t54.js": {
+   "predictions": [
+    {
+     "line": 3,
+     "category": "security",
+     "issue_type": "Disabled TLS Certificate Validation",
+     "severity": "critical",
+     "class": "tls_verification",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 1.73,
+   "llm_calls": 1,
+   "cache_hits": 0
+  },
+  "test/t55.js": {
+   "predictions": [
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "critical",
+     "class": "path_traversal",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 5.02,
+   "llm_calls": 1,
+   "cache_hits": 0
+  },
+  "test/t56.py": {
+   "predictions": [
+    {
+     "line": 5,
+     "category": "performance",
+     "issue_type": "Inefficient Queue Operation",
+     "severity": "medium",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 0.95
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 1.5,
+   "llm_calls": 1,
+   "cache_hits": 0
+  },
+  "test/t57.py": {
+   "predictions": [
+    {
+     "line": 25,
+     "category": "performance",
+     "issue_type": "N+1 Query",
+     "severity": "medium",
+     "class": "io_in_loop",
+     "agent": "single_llm",
+     "confidence": 0.7
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 1.67,
+   "llm_calls": 1,
+   "cache_hits": 0
+  },
+  "test/t58.py": {
+   "predictions": [
+    {
+     "line": 26,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "critical",
+     "class": "path_traversal",
+     "agent": "single_llm",
+     "confidence": 0.8
+    },
+    {
+     "line": 18,
+     "category": "security",
+     "issue_type": "Insecure File Storage",
+     "severity": "medium",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 0.7
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 1.97,
+   "llm_calls": 1,
+   "cache_hits": 0
+  },
+  "test/t59.py": {
+   "predictions": [
+    {
+     "line": 6,
+     "category": "performance",
+     "issue_type": "N+1 Query",
+     "severity": "high",
+     "class": "io_in_loop",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 1.08,
+   "llm_calls": 1,
+   "cache_hits": 0
+  },
+  "test/t60.py": {
+   "predictions": [
+    {
+     "line": 11,
+     "category": "security",
+     "issue_type": "SQL Injection",
+     "severity": "critical",
+     "class": "sql_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 1.33,
+   "llm_calls": 1,
+   "cache_hits": 0
+  },
+  "test/t61.py": {
+   "predictions": [
+    {
+     "line": 17,
+     "category": "security",
+     "issue_type": "Path Traversal",
+     "severity": "critical",
+     "class": "path_traversal",
+     "agent": "single_llm",
+     "confidence": 1.0
+    },
+    {
+     "line": 18,
+     "category": "security",
+     "issue_type": "Unrestricted File Upload",
+     "severity": "high",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 0.9
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 1.72,
+   "llm_calls": 1,
+   "cache_hits": 0
+  },
+  "test/t62.py": {
+   "predictions": [
+    {
+     "line": 7,
+     "category": "performance",
+     "issue_type": "I/O Performance",
+     "severity": "high",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 1.36,
+   "llm_calls": 1,
+   "cache_hits": 0
+  },
+  "test/t63.py": {
+   "predictions": [
+    {
+     "line": 12,
+     "category": "security",
+     "issue_type": "OS Command Injection",
+     "severity": "critical",
+     "class": "command_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 1.24,
+   "llm_calls": 1,
+   "cache_hits": 0
+  },
+  "test/t64.py": {
+   "predictions": [
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Disabled SSL Certificate Verification",
+     "severity": "critical",
+     "class": "tls_verification",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 1.26,
+   "llm_calls": 1,
+   "cache_hits": 0
+  },
+  "test/t65.py": {
+   "predictions": [
+    {
+     "line": 7,
+     "category": "security",
+     "issue_type": "Hardcoded Credentials",
+     "severity": "critical",
+     "class": "hardcoded_credentials",
+     "agent": "single_llm",
+     "confidence": 1.0
+    },
+    {
+     "line": 17,
+     "category": "security",
+     "issue_type": "Insecure SMTP Configuration",
+     "severity": "medium",
+     "class": "other",
+     "agent": "single_llm",
+     "confidence": 0.8
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 1.59,
+   "llm_calls": 1,
+   "cache_hits": 0
+  },
+  "test/t66.py": {
+   "predictions": [
+    {
+     "line": 14,
+     "category": "security",
+     "issue_type": "Server-Side Template Injection (SSTI)",
+     "severity": "critical",
+     "class": "code_injection",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 1.57,
+   "llm_calls": 1,
+   "cache_hits": 0
+  },
+  "test/t67.py": {
+   "predictions": [
+    {
+     "line": 8,
+     "category": "security",
+     "issue_type": "Zip Slip / Path Traversal",
+     "severity": "critical",
+     "class": "path_traversal",
+     "agent": "single_llm",
+     "confidence": 1.0
+    }
+   ],
+   "warnings": [],
+   "error": null,
+   "seconds": 1.8,
+   "llm_calls": 1,
+   "cache_hits": 0
+  }
+ },
+ "created": "2026-10-29T04:03:18+00:00"
+}
