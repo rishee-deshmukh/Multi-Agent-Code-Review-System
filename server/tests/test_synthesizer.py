@@ -64,6 +64,7 @@ def test_unparseable_answer_is_retried_then_falls_back_with_warning(fake_llm):
     assert len(result["final_issues"]) == 2
     assert result["fixed_code"] == "orig"
     assert "synthesizer failed" in result["warnings"][0]
+    assert result["failed_agents"] == ["synthesizer"]
 
 
 def test_empty_fixed_code_falls_back_to_original(fake_llm):

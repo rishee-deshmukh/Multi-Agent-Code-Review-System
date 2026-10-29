@@ -14,6 +14,7 @@ interrupted run, and --min-interval to stay under a free-tier rate limit.
 import argparse
 import json
 import sys
+import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
@@ -30,6 +31,7 @@ load_dotenv(EVAL_DIR.parent / "server" / ".env")
 
 import llm  # noqa: E402
 from llm_cache import CachedLLM  # noqa: E402
+from records import degraded, hit_daily_quota  # noqa: E402
 from systems import SYSTEMS, run_system  # noqa: E402
 
 SAMPLES_DIR = EVAL_DIR / "samples"
@@ -87,7 +89,7 @@ def main() -> int:
     parser.add_argument("--workers", type=int, default=1, help="parallel files; >1 makes per-file latency/call counts unreliable")
     parser.add_argument("--offline", action="store_true", help="never call the API; fail on a cache miss")
     parser.add_argument("--min-interval", type=float, default=0.0, help="seconds between live API calls")
-    parser.add_argument("--resume", action="store_true", help="keep results already saved without an error")
+    parser.add_argument("--resume", action="store_true", help="keep results already saved, re-running errored or degraded ones")
     parser.add_argument("--results-dir", type=Path, default=RESULTS_DIR)
     parser.add_argument("--cache-dir", type=Path, default=CACHE_DIR)
     args = parser.parse_args()
@@ -109,7 +111,7 @@ def main() -> int:
         payload = {"system": system, "model": llm.model_name(), "files": {}}
         if args.resume and path.exists():
             previous = json.loads(path.read_text(encoding="utf-8"))
-            payload["files"] = {k: v for k, v in previous.get("files", {}).items() if not v.get("error")}
+            payload["files"] = {k: v for k, v in previous.get("files", {}).items() if not degraded(v)}
         elif path.exists() and (args.split != "all" or args.limit or args.file):
             # a partial run must not wipe the results of files it did not touch
             payload["files"] = json.loads(path.read_text(encoding="utf-8")).get("files", {})
@@ -117,17 +119,37 @@ def main() -> int:
         todo = [f for f in files if f["file"] not in payload["files"] or not args.resume]
         print(f"\n== {system}: {len(todo)} file(s)  (model {llm.model_name()}{', offline' if args.offline else ''})")
 
+        quota_exhausted = threading.Event()
+
         def work(entry):
-            return entry["file"], evaluate_file(system, entry, cache, track_calls=args.workers == 1)
+            if quota_exhausted.is_set():   # set by whichever worker hit the daily limit first
+                return entry["file"], None
+            result = evaluate_file(system, entry, cache, track_calls=args.workers == 1)
+            if hit_daily_quota(result):
+                quota_exhausted.set()
+            return entry["file"], result
 
         with ThreadPoolExecutor(max_workers=args.workers) as pool:
-            for i, (name, result) in enumerate(pool.map(work, todo), start=1):
-                payload["files"][name] = result
-                payload["created"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
-                save(path, payload)
-                status = f"ERROR {result['error']}" if result["error"] else f"{len(result['predictions'])} predictions"
-                print(f"  [{i}/{len(todo)}] {name:12s} {status}  ({result['seconds']}s)")
-                exit_code |= bool(result["error"])
+            futures = [pool.submit(work, entry) for entry in todo]
+            try:
+                for i, future in enumerate(futures, start=1):
+                    name, result = future.result()
+                    if result is None:   # skipped after a daily-quota stop
+                        continue
+                    payload["files"][name] = result
+                    payload["created"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+                    save(path, payload)
+                    status = f"ERROR {result['error']}" if result["error"] else f"{len(result['predictions'])} predictions"
+                    print(f"  [{i}/{len(todo)}] {name:12s} {status}  ({result['seconds']}s)")
+                    exit_code |= bool(result["error"])
+                    if hit_daily_quota(result):
+                        print("\nThe API's daily quota is exhausted. Progress is saved; cached responses are kept.\n"
+                              "Re-run the same command with --resume after the quota resets (midnight Pacific time).")
+                        return 2
+            finally:
+                # on a quota stop or Ctrl-C, do not start the files still queued
+                for future in futures:
+                    future.cancel()
 
     print(f"\nlive API calls: {cache.calls - cache.hits}   cache hits: {cache.hits}")
     if exit_code:

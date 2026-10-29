@@ -31,6 +31,7 @@ def synthesizer_agent(state: AgentState) -> dict:
             "final_issues": sorted(all_issues, key=lambda i: SEVERITY_RANK[i.severity]),
             "summary": "Synthesis failed. Showing raw agent findings.",
             "fixed_code": code,
+            "failed_agents": ["synthesizer"],
             "warnings": [f"synthesizer failed, results are not merged or deduplicated: {e}"],
         }
 

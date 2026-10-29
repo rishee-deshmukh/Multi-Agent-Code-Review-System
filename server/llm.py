@@ -36,6 +36,10 @@ class LLMUnrecoverableError(LLMError):
     """Retrying cannot help (bad credentials, offline cache miss)."""
 
 
+class DailyQuotaExhausted(LLMUnrecoverableError):
+    """The per-day request quota is spent; nothing will work until it resets."""
+
+
 def model_name() -> str:
     return os.getenv("GEMINI_MODEL", DEFAULT_MODEL)
 
@@ -104,7 +108,7 @@ def _rate_limit_delay(error: Exception) -> float | None:
     if "429" not in text and "RESOURCE_EXHAUSTED" not in text:
         return None
     if "perday" in text.lower().replace(" ", "").replace("_", ""):
-        raise LLMUnrecoverableError(
+        raise DailyQuotaExhausted(
             "daily API quota exhausted; re-run later with --resume (cached responses are kept)"
         ) from error
     match = _RETRY_IN.search(text)

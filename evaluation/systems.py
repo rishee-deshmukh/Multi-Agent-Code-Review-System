@@ -122,8 +122,9 @@ def run_multi_agent(code: str, filename: str, language: str, grounded: bool = Tr
 
     result = review_graph.invoke(state)
     run = Run(warnings=warnings + result.get("warnings", []))
-    if {"security", "performance", "maintainability"} <= set(result.get("failed_agents", [])):
-        run.error = "all specialist agents failed"
+    if result.get("failed_agents"):
+        # a missing agent means missing findings: scoring the rest would understate recall
+        run.error = "agent(s) failed: " + ", ".join(result["failed_agents"])
         return run
 
     for issue in result.get("final_issues", []):

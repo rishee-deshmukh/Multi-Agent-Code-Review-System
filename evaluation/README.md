@@ -89,6 +89,14 @@ python compute_metrics.py                # -> results/RESULTS.md, results/errors
 ```
 
 First live run (needs `GEMINI_API_KEY`): `python run_eval.py --system all --min-interval 5`.
+
+**Free-tier budget.** The free tier allows 15 requests/minute and 500 requests/day per model
+(check your own limits). One full pass over every system is roughly 700 calls, so expect to
+spend two days: the run stops cleanly at the daily limit (exit code 2) and
+`python run_eval.py --system all --min-interval 5 --resume` carries on after the reset
+(midnight Pacific). Already-cached calls cost nothing, and `--resume` re-runs only files that
+errored or ran with a failed agent. A file in which any agent failed is never scored with
+partial findings; it is counted as *failed* in the report.
 Every response is cached in `llm_cache/` keyed by (model, prompt, input), so re-runs are
 free and identical; **commit that directory** and anyone can regenerate the published
 numbers without a key. Changing a prompt, the model, or a sample invalidates just the
