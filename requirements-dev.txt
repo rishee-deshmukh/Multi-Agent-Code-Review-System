@@ -1,4 +1,4 @@
 -r requirements.txt
-pytest
-httpx
-requests
+pytest==9.2.0
+httpx==0.28.1
+requests==2.34.2

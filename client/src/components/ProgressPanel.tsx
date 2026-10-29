@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Issue, Language, ReviewRequest, StreamEvent } from '../types.ts'
 import IssueCard from './IssueCard.tsx'
 import SummaryCard from './SummaryCard.tsx'
+import { API_BASE, errorMessage } from '../api.ts'
 
 interface Props {
     request: ReviewRequest
@@ -51,14 +52,14 @@ export default function ProgressPanel({ request, onReset, onDone }: Props) {
 
         async function startStream() {
             try {
-                const res = await fetch('/stream', {
+                const res = await fetch(`${API_BASE}/stream`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(request),
                     signal: ctrl.signal,
                 })
 
-                if (!res.ok) throw new Error(`Server error ${res.status}`)
+                if (!res.ok) throw new Error(await errorMessage(res))
                 if (!res.body) throw new Error('No response body')
 
                 setPhase('streaming')

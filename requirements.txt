@@ -1,10 +1,13 @@
-fastapi
-uvicorn
-google-genai
-langgraph
-pydantic
-python-dotenv
-semgrep
-bandit
-ruff
-json-repair
+# Direct dependencies, pinned to the versions the tests and the published evaluation were run with.
+# Needs Python 3.10+ (the code uses `X | None`). Semgrep, Bandit and Ruff are runtime dependencies:
+# the pipeline shells out to them. ESLint (>= 9) is installed separately with npm.
+fastapi==0.162.0
+uvicorn==0.54.0
+google-genai==2.33.0
+langgraph==1.2.18
+pydantic==2.14.1
+python-dotenv==1.2.4
+semgrep==1.79.0
+bandit==1.9.4
+ruff==0.17.3
+json-repair==0.64.2

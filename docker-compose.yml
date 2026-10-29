@@ -1,0 +1,11 @@
+# `docker compose up --build`, then open http://localhost:8000
+# Reads GEMINI_API_KEY (and any guard settings from .env.example) from .env.
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - path: .env
+        required: false
+    restart: unless-stopped
