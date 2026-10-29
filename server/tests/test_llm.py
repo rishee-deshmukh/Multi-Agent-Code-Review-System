@@ -39,7 +39,7 @@ def test_parse_rejects_no_json():
 
 
 def test_generate_json_retries_then_succeeds(fake_llm):
-    answers = iter([RuntimeError("429"), "not json at all", '[{"ok": true}]'])
+    answers = iter([RuntimeError("503 service unavailable"), "not json at all", '[{"ok": true}]'])
 
     def respond(system_prompt, user_message):
         answer = next(answers)
@@ -76,3 +76,73 @@ def test_unrecoverable_errors_skip_the_retry_loop(fake_llm):
     with pytest.raises(llm.LLMUnrecoverableError):
         generate_json("sys", "user", list)
     assert fake_llm.calls == 1
+
+
+QUOTA_429 = ("429 RESOURCE_EXHAUSTED. {'error': {'message': 'Quota exceeded ... Please retry in 42.5s.', "
+             "'details': [{'violations': [{'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier'}]}]}}")
+
+
+def test_rate_limit_waits_as_long_as_the_api_asks_and_keeps_the_attempts(fake_llm, monkeypatch):
+    slept = []
+    monkeypatch.setattr(llm.time, "sleep", slept.append)
+    answers = iter([RuntimeError(QUOTA_429), RuntimeError(QUOTA_429), RuntimeError(QUOTA_429), '[{"ok": 1}]'])
+
+    def respond(system_prompt, user_message):
+        answer = next(answers)
+        if isinstance(answer, Exception):
+            raise answer
+        return answer
+
+    fake_llm.respond = respond
+    # three 429s would have exhausted the three attempts under the old 2/4/8s backoff
+    assert generate_json("sys", "user", list) == [{"ok": 1}]
+    assert slept == [43.5, 43.5, 43.5]
+
+
+def test_rate_limit_without_a_hint_uses_a_default_wait(fake_llm, monkeypatch):
+    slept = []
+    monkeypatch.setattr(llm.time, "sleep", slept.append)
+    answers = iter([RuntimeError("429 RESOURCE_EXHAUSTED"), "[]"])
+
+    def respond(system_prompt, user_message):
+        answer = next(answers)
+        if isinstance(answer, Exception):
+            raise answer
+        return answer
+
+    fake_llm.respond = respond
+    assert generate_json("sys", "user", list) == []
+    assert slept == [llm.DEFAULT_RATE_LIMIT_DELAY + 1]
+
+
+def test_a_huge_retry_hint_is_capped(fake_llm, monkeypatch):
+    slept = []
+    monkeypatch.setattr(llm.time, "sleep", slept.append)
+    answers = iter([RuntimeError("429 ... Please retry in 3600s."), "[]"])
+
+    def respond(system_prompt, user_message):
+        answer = next(answers)
+        if isinstance(answer, Exception):
+            raise answer
+        return answer
+
+    fake_llm.respond = respond
+    generate_json("sys", "user", list)
+    assert slept == [llm.MAX_RATE_LIMIT_DELAY]
+
+
+def test_daily_quota_is_not_waited_out(fake_llm, monkeypatch):
+    monkeypatch.setattr(llm.time, "sleep", lambda s: pytest.fail("must not sleep"))
+    fake_llm.respond = lambda s, u: (_ for _ in ()).throw(
+        RuntimeError("429 RESOURCE_EXHAUSTED quotaId: GenerateRequestsPerDayPerProjectPerModel-FreeTier"))
+    with pytest.raises(llm.LLMUnrecoverableError, match="daily"):
+        generate_json("sys", "user", list)
+    assert fake_llm.calls == 1
+
+
+def test_endless_rate_limiting_eventually_gives_up(fake_llm, monkeypatch):
+    monkeypatch.setattr(llm.time, "sleep", lambda s: None)
+    fake_llm.respond = lambda s, u: (_ for _ in ()).throw(RuntimeError(QUOTA_429))
+    with pytest.raises(LLMError):
+        generate_json("sys", "user", list)
+    assert fake_llm.calls == llm.MAX_RATE_LIMIT_WAITS + llm.MAX_ATTEMPTS

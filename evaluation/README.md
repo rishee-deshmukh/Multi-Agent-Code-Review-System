@@ -88,7 +88,7 @@ python run_eval.py --system all --offline   # replay the committed llm_cache/, n
 python compute_metrics.py                # -> results/RESULTS.md, results/errors.md
 ```
 
-First live run (needs `GEMINI_API_KEY`): `python run_eval.py --system all --min-interval 4`.
+First live run (needs `GEMINI_API_KEY`): `python run_eval.py --system all --min-interval 5`.
 Every response is cached in `llm_cache/` keyed by (model, prompt, input), so re-runs are
 free and identical; **commit that directory** and anyone can regenerate the published
 numbers without a key. Changing a prompt, the model, or a sample invalidates just the
