@@ -6,6 +6,9 @@ FastAPI backend with a JSON endpoint and an SSE stream, React + TypeScript UI.
 
 The more interesting part is the evaluation, because **the multi-agent design did not beat the simpler alternatives.**
 
+**Live demo: https://code-review-v2i1.onrender.com** (free instance: the first request after idle takes up to a minute, a review takes
+about 30 seconds, and it is limited to 6 reviews/min per IP and 100/day overall).
+
 ## Does the multi-agent pipeline actually work better?
 
 Four systems, scored on a held-out set of 67 files (56 labelled issues, 14 clean files) written for this project after
