@@ -141,11 +141,8 @@ server/       FastAPI app, pipeline, agents, bundled Semgrep rules, tests
 client/       React + Vite + TypeScript UI
 evaluation/   dataset (annotated source), runner, scorer, results, committed LLM cache
 scripts/      image smoke test
-docs/         HANDOFF.md: working notes for continuing the project
 ```
 
-## Provenance
+## License
 
-The initial pipeline was imported from another repository (see the first commit). The fixes for silent failures and wrong
-results, the evaluation (dataset, scorer, baselines, harness), the request limits and the packaging are later work, in the
-commits after it.
+[MIT](LICENSE)
