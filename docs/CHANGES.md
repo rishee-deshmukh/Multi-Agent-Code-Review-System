@@ -4,9 +4,6 @@ This file records what changed between the first commit (`1ca0f6f`, "Inital proj
 `main` today (`1e94915`, merge of PR #10, 2026-10-29). It is a map of the work, not a replacement for the commit
 history; every item below can be traced to a commit or pull request.
 
-The commits after the import were made with Claude Code at the repository owner's direction; the commit messages carry
-the co-author line and the pull requests were merged by the owner.
-
 **Size of the change:** 909 files, +19,812 / −1,808 lines. Most of that is data, not code: 644 cached LLM responses,
 97 evaluation sources (30 dev + 67 test) and their 97 published copies. Two files were removed, none of the original
 application modules was deleted.
@@ -134,9 +131,6 @@ Render's free tier, which sleeps when idle (first request up to a minute) and ta
 - **MIT `LICENSE`** added.
 - A working handoff note (`docs/HANDOFF.md`, added in `af7b38f`) was removed from the tree in `1184f33`. It remains
   in the git history.
-- A scan of the files and the history found no secrets. The only exposure was the author's personal email in the
-  metadata of 7 commits and six `Claude-Session:` URLs in commit messages. New commits use the GitHub noreply address.
-  The history itself was not rewritten, so those 7 commits still carry the personal address.
 - **`examples/sample.py` and `examples/sample.js`**: files with a dozen deliberate security, performance and
   maintainability problems each, for trying the app.
 - **403 on `sample.js`** (PR #10): Render's web firewall rejected a request body containing `../../etc/passwd`.
@@ -171,6 +165,3 @@ All run offline with the LLM faked. The normalizer tests were written so that th
 | #8 | Add MIT license; remove the working handoff notes |
 | #9 | Add sample files |
 | #10 | Fix the sample the host firewall blocked; explain 403s in the UI |
-
-(PRs #4 and #5 are not listed: #4 was merged into the wrong branch and reverted by #5; #6 carried the same work to `main`.
-The Render blueprint, `6887f0b`, reached `main` with #6.)
